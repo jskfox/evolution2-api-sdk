@@ -29,22 +29,26 @@ const evoApi = new Evolution2SDK({
 });
 
 // Instance management
-const instances = await evoApi.instance.getAll();
+const instances = await evoApi.instance.fetchAll();
 
 // Chat operations
 const chats = await evoApi.chat.getAll('instance-name');
 
 // Group management
-await evoApi.group.create('instance-name', {
-  name: 'My Group',
-  participants: ['1234567890']
-});
+const groups = await evoApi.group.getAll('instance-name');
 
 // Profile management
-const profile = await evoApi.profile.get('instance-name');
+await evoApi.profile.updateName('instance-name', 'New Name');
+await evoApi.profile.updateStatus('instance-name', 'Hello!');
+const privacy = await evoApi.profile.getPrivacy('instance-name');
+await evoApi.profile.updatePrivacy('instance-name', privacySettings);
 
 // Settings management
-const settings = await evoApi.settings.get('instance-name');
+const settings = await evoApi.settings.findOptions('instance-name');
+await evoApi.settings.setOptions('instance-name', {
+  rejectCalls: true,
+  groupsAdminsOnly: false
+});
 ```
 
 ## Controllers
@@ -102,22 +106,26 @@ const evoApi = new Evolution2SDK({
 });
 
 // Gestión de instancias
-const instancias = await evoApi.instance.getAll();
+const instancias = await evoApi.instance.fetchAll();
 
 // Operaciones de chat
 const chats = await evoApi.chat.getAll('nombre-instancia');
 
 // Gestión de grupos
-await evoApi.group.create('nombre-instancia', {
-  name: 'Mi Grupo',
-  participants: ['1234567890']
-});
+const grupos = await evoApi.group.getAll('nombre-instancia');
 
 // Gestión de perfil
-const perfil = await evoApi.profile.get('nombre-instancia');
+await evoApi.profile.updateName('nombre-instancia', 'Nuevo Nombre');
+await evoApi.profile.updateStatus('nombre-instancia', '¡Hola!');
+const privacidad = await evoApi.profile.getPrivacy('nombre-instancia');
+await evoApi.profile.updatePrivacy('nombre-instancia', configuracionPrivacidad);
 
 // Gestión de configuraciones
-const configuraciones = await evoApi.settings.get('nombre-instancia');
+const configuraciones = await evoApi.settings.findOptions('nombre-instancia');
+await evoApi.settings.setOptions('nombre-instancia', {
+  rejectCalls: true,
+  groupsAdminsOnly: false
+});
 ```
 
 ## Controladores

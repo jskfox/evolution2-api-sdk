@@ -1,41 +1,36 @@
 import { AxiosInstance } from 'axios';
 import { BaseControllerConfig, handleApiError } from '../types/base';
-import { Settings, SettingsUpdate } from '../types/settings';
-
-interface WebhookSettings {
-  url: string;
-  enabled: boolean;
-  events?: string[];
-}
+import { 
+  SettingsOptions, 
+  WebhookSettings, 
+  RabbitmqSettings, 
+  TypebotSettings, 
+  TypebotStatusChange 
+} from '../types/settings';
 
 interface WebsocketSettings {
   enabled: boolean;
   events?: string[];
 }
 
-interface RabbitmqSettings {
-  enabled: boolean;
-  host?: string;
-  port?: number;
-  user?: string;
-  password?: string;
-}
-
 interface ChatwootSettings {
   enabled: boolean;
-  account_id?: string;
+  accountId?: string;
   token?: string;
   url?: string;
-  sign_msg?: boolean;
-  name_inbox?: string;
-}
-
-interface TypebotSettings {
-  enabled: boolean;
-  url?: string;
-  typebot?: string;
-  expire?: number;
-  keyword_finish?: string;
+  signMsg?: boolean;
+  reopenConversation?: boolean;
+  conversationPending?: boolean;
+  nameInbox?: string;
+  mergeBrazilContacts?: boolean;
+  importContacts?: boolean;
+  importMessages?: boolean;
+  daysLimitImportMessages?: number;
+  signDelimiter?: string;
+  autoCreate?: boolean;
+  organization?: string;
+  logo?: string;
+  ignoreJids?: string[];
 }
 
 class InstanceSettingsController {
@@ -45,23 +40,33 @@ class InstanceSettingsController {
     this.http = http;
   }
 
-  async get(instanceName: string): Promise<Settings> {
+
+  async findOptions(instanceName: string): Promise<SettingsOptions> {
     try {
-      const response = await this.http.get<Settings>("/settings/get/:instance", {
-        params: { instance: instanceName }
-      });
+      const response = await this.http.get(
+        "/settings/find/:instance", 
+        {
+          params: {
+            instance: instanceName
+          }
+        }
+      );
       return response.data;
     } catch (error) {
       handleApiError(error);
     }
   }
-
-  async update(instanceName: string, settings: SettingsUpdate): Promise<Settings> {
+  
+  async setOptions(instanceName: string, data: SettingsOptions): Promise<SettingsOptions> {
     try {
-      const response = await this.http.post<Settings>(
-        "/settings/update/:instance",
-        settings,
-        { params: { instance: instanceName } }
+      const response = await this.http.post(
+        "/settings/set/:instance", 
+        data, 
+        {
+          params: {
+            instance: instanceName
+          }
+        }
       );
       return response.data;
     } catch (error) {
@@ -189,10 +194,10 @@ class InstanceSettingsController {
     }
   }
 
-  async changeTypebotStatus(instanceName: string, data: { enabled: boolean }): Promise<TypebotSettings> {
+  async changeTypebotStatus(instanceName: string, data: TypebotStatusChange): Promise<TypebotSettings> {
     try {
       const response = await this.http.put(
-        "/typebot/status/:instance",
+        "/typebot/changeStatus/:instance",
         data,
         { params: { instance: instanceName } }
       );

@@ -20,3 +20,28 @@ export interface WhatsappNumberStatus {
   exists: boolean;
   id?: string;
 }
+
+export interface MessageQuotedKey {
+  id: string;
+}
+
+export interface MessageQuotedContent {
+  conversation?: string;
+  // Add other possible message content types as needed
+  [key: string]: any;
+}
+
+export interface MessageQuoted {
+  key?: MessageQuotedKey;
+  message?: MessageQuotedContent;
+}
+
+export interface MessageOptions {
+  number: string;
+  text: string;
+  delay?: number;
+  quoted?: MessageQuoted;
+  linkPreview?: boolean;
+  mentionsEveryOne?: boolean;
+  mentioned?: string[];
+}

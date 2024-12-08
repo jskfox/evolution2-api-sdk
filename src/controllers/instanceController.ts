@@ -9,9 +9,9 @@ class InstanceController {
     this.http = http;
   }
 
-  async getAll(): Promise<Instance[]> {
+  async fetchAll(): Promise<Instance[]> {
     try {
-      const response = await this.http.get<Instance[]>("/instance/getAll");
+      const response = await this.http.get<Instance[]>("/instance/fetchInstances");
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -48,16 +48,6 @@ class InstanceController {
     }
   }
 
-  async disconnect(instanceName: string): Promise<void> {
-    try {
-      await this.http.get("/instance/disconnect/:instance", {
-        params: { instance: instanceName }
-      });
-    } catch (error) {
-      handleApiError(error);
-    }
-  }
-
   async logout(instanceName: string): Promise<void> {
     try {
       await this.http.get("/instance/logout/:instance", {
@@ -67,6 +57,23 @@ class InstanceController {
       handleApiError(error);
     }
   }
+
+  async restart(instanceName: string): Promise<void> {
+    try {
+      await this.http.put(
+        "/instance/restart/:instance", 
+        {}, 
+        {
+          params: {
+            instance: instanceName
+          }
+        }
+      );
+    } catch (error) {
+      handleApiError(error);
+    }
+  }
+
 }
 
 export default InstanceController;
