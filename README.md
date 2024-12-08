@@ -1,6 +1,87 @@
 # Evolution2 API SDK
 
-SDK para interactuar con la API de Evolution2.
+A TypeScript/JavaScript SDK for interacting with Evolution API v2.
+
+## Features
+
+- Full TypeScript support with type definitions
+- Modular controller-based architecture
+- Promise-based API
+- Comprehensive error handling
+- Axios-based HTTP client
+
+## Installation
+
+```bash
+npm install evolution2-api-sdk
+```
+
+## Usage
+
+```typescript
+import Evolution2SDK from 'evolution2-api-sdk';
+
+const evoApi = new Evolution2SDK({
+  baseURL: 'https://your-api-url.com',
+  headers: {
+    'Authorization': 'Bearer your-token'
+  }
+});
+
+// Instance management
+const instances = await evoApi.instance.getAll();
+
+// Chat operations
+const chats = await evoApi.chat.getAll('instance-name');
+
+// Group management
+await evoApi.group.create('instance-name', {
+  name: 'My Group',
+  participants: ['1234567890']
+});
+
+// Profile management
+const profile = await evoApi.profile.get('instance-name');
+
+// Settings management
+const settings = await evoApi.settings.get('instance-name');
+```
+
+## Controllers
+
+- `InstanceController`: Manage WhatsApp instances
+- `InstanceChatController`: Handle chat operations
+- `InstanceGroupController`: Manage group operations
+- `InstanceProfileController`: Handle profile settings
+- `InstanceSettingsController`: Manage instance settings
+
+## Type Definitions
+
+All controllers and methods are fully typed. Type definitions are available for:
+- Instance configurations and states
+- Chat messages and contacts
+- Group structures and operations
+- Profile settings
+- Instance settings
+- API responses
+
+## Error Handling
+
+The SDK includes comprehensive error handling with detailed error messages from the API.
+
+---
+
+# Evolution2 API SDK (Español)
+
+SDK en TypeScript/JavaScript para interactuar con Evolution API v2.
+
+## Características
+
+- Soporte completo de TypeScript con definiciones de tipos
+- Arquitectura modular basada en controladores
+- API basada en Promesas
+- Manejo integral de errores
+- Cliente HTTP basado en Axios
 
 ## Instalación
 
@@ -10,52 +91,65 @@ npm install evolution2-api-sdk
 
 ## Uso
 
-```javascript
+```typescript
 import Evolution2SDK from 'evolution2-api-sdk';
 
-// Inicializar el SDK
-const sdk = new Evolution2SDK({
-  host: 'https://tu-api.com',
-  apiKey: 'tu-api-key'
+const evoApi = new Evolution2SDK({
+  baseURL: 'https://tu-url-api.com',
+  headers: {
+    'Authorization': 'Bearer tu-token'
+  }
 });
 
-// Ejemplos de uso
+// Gestión de instancias
+const instancias = await evoApi.instance.getAll();
 
-// Instancias
-await sdk.instance.connect('instance1');
-await sdk.instance.disconnect('instance1');
+// Operaciones de chat
+const chats = await evoApi.chat.getAll('nombre-instancia');
 
-// Chat
-await sdk.chat.sendMessage('instance1', {
-  number: '1234567890',
-  message: 'Hola mundo'
-});
-
-// Grupos
-await sdk.group.create('instance1', {
+// Gestión de grupos
+await evoApi.group.create('nombre-instancia', {
   name: 'Mi Grupo',
   participants: ['1234567890']
 });
 
-// Perfiles
-await sdk.profile.getProfile('instance1');
+// Gestión de perfil
+const perfil = await evoApi.profile.get('nombre-instancia');
 
-// Configuración
-await sdk.settings.getSettings('instance1');
+// Gestión de configuraciones
+const configuraciones = await evoApi.settings.get('nombre-instancia');
 ```
 
-## Configuración
+## Controladores
 
-Puedes cambiar la configuración en cualquier momento:
+- `InstanceController`: Gestiona instancias de WhatsApp
+- `InstanceChatController`: Maneja operaciones de chat
+- `InstanceGroupController`: Gestiona operaciones de grupos
+- `InstanceProfileController`: Maneja configuraciones de perfil
+- `InstanceSettingsController`: Gestiona configuraciones de instancia
 
-```javascript
-// Cambiar API Key
-sdk.setApiKey('nueva-api-key');
+## Definiciones de Tipos
 
-// Cambiar URL base
-sdk.setBaseURL('https://nueva-api.com');
-```
+Todos los controladores y métodos están completamente tipados. Las definiciones de tipos están disponibles para:
+- Configuraciones y estados de instancia
+- Mensajes y contactos de chat
+- Estructuras y operaciones de grupos
+- Configuraciones de perfil
+- Configuraciones de instancia
+- Respuestas de API
+
+## Manejo de Errores
+
+El SDK incluye un manejo integral de errores con mensajes detallados de la API.
 
 ## Licencia
 
-ISC
+Este proyecto se distribuye bajo la licencia [MIT](https://opensource.org/licenses/MIT)
+
+## Autor
+
+Esta librería fue adaptada por [Jorge Solano Kirk](https://github.com/jskfox).
+
+## Créditos
+
+Esta librería se basa en el código de [Evolution Manager](https://github.com/EvolutionAPI/evolution-manager), desarrollado por [Gabriel Pastori] bajo la licencia MIT.
