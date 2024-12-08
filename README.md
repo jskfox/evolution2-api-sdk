@@ -23,8 +23,10 @@ import Evolution2SDK from 'evolution2-api-sdk';
 
 const evoApi = new Evolution2SDK({
   baseURL: 'https://your-api-url.com',
+  apiKey: 'globalApiKey',
+  // Optionally, you can add other headers here. 
   headers: {
-    'Authorization': 'Bearer your-token'
+    'your-header': 'value', // For example, 'Bearer your-token'
   }
 });
 
@@ -100,8 +102,10 @@ import Evolution2SDK from 'evolution2-api-sdk';
 
 const evoApi = new Evolution2SDK({
   baseURL: 'https://tu-url-api.com',
+  apiKey: 'globalApiKey',
+  // Opcionalmente puedes agregar otros encabezados 
   headers: {
-    'Authorization': 'Bearer tu-token'
+    'Nuevo-Encabezado': 'Tu Valor', // Por ejemplo, 'Bearer tu-token'
   }
 });
 
