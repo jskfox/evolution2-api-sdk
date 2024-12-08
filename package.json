@@ -1,0 +1,30 @@
+{
+  "name": "evolution2-api-sdk",
+  "version": "1.0.0",
+  "description": "SDK for Evolution API 2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "evolution2",
+    "api",
+    "evolutionapi",
+    "evolution-api",
+    "evolutionapi2",
+    "evolution-api2",
+    "evolution2-api",
+    "evolution2api",
+    "evolution-manager",
+    "v2",
+    "sdk"
+  ],
+  "author": "Jorge Solano Kirk",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.2"
+  },
+  "peerDependencies": {
+    "axios": "^1.6.2"
+  }
+}
