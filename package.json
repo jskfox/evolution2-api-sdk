@@ -1,6 +1,6 @@
 {
   "name": "evolution2-api-sdk",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "SDK for Evolution API 2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
