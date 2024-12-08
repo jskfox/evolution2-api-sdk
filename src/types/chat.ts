@@ -38,7 +38,8 @@ export interface MessageOptions {
 }
 
 export interface ButtonOption {
-  text: string;
+  type: string;
+  displayText: string;
   id: string;
 }
 
@@ -46,7 +47,7 @@ export interface ButtonsOptions {
   number: string;
   title: string;
   description: string;
-  footerText: string;
+  footer: string;
   buttons: ButtonOption[];
   delay?: number;
   quoted?: MessageQuoted;
