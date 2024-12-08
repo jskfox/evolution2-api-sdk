@@ -36,3 +36,20 @@ export interface MessageOptions {
   mentionsEveryOne?: boolean;
   mentioned?: string[];
 }
+
+export interface ButtonOption {
+  text: string;
+  id: string;
+}
+
+export interface ButtonsOptions {
+  number: string;
+  title: string;
+  description: string;
+  footerText: string;
+  buttons: ButtonOption[];
+  delay?: number;
+  quoted?: MessageQuoted;
+  mentionsEveryOne?: boolean;
+  mentioned?: string[];
+}

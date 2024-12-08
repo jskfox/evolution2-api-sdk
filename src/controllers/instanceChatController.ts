@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { BaseControllerConfig, handleApiError } from '../types/base';
-import { ChatContact, MessageOptions, WhatsappNumberStatus } from '../types/chat';
+import { ButtonsOptions, ChatContact, MessageOptions, WhatsappNumberStatus } from '../types/chat';
 
 class InstanceChatController {
   private http: AxiosInstance;
@@ -58,6 +58,21 @@ class InstanceChatController {
       handleApiError(error);
     }
   }
+
+  async sendButtons(instanceName: string, options: ButtonsOptions): Promise<any> {
+    try {
+      const response = await this.http.post(
+        "/message/sendButtons/:instance",
+        options,
+        { params: { instance: instanceName } }
+      );
+      return response.data;
+    } catch (error) {
+      handleApiError(error);
+    }
+  }
+
+
 }
 
 export default InstanceChatController;

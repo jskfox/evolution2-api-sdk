@@ -160,7 +160,7 @@ Este proyecto se distribuye bajo la licencia [MIT](https://opensource.org/licens
 
 ## Autor
 
-Esta librería fue adaptada por [Jorge Solano Kirk](https://github.com/jskfox).
+Esta librería fue adaptada y extendida por [Jorge Solano Kirk](https://github.com/jskfox).
 
 ## Créditos
 
