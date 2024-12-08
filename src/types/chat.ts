@@ -1,12 +1,3 @@
-export interface MessageOptions {
-  to: string;
-  text: string;
-  options?: {
-    delay?: number;
-    presence?: 'composing' | 'recording' | 'paused';
-  };
-}
-
 export interface ChatContact {
   id: string;
   name: string;
