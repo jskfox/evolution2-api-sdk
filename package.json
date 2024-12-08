@@ -4,6 +4,10 @@
   "description": "SDK for Evolution API 2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build",
@@ -31,7 +35,7 @@
     "axios": "^1.6.2"
   },
   "devDependencies": {
-    "@types/node": "^20.10.4",
-    "typescript": "^5.3.3"
+    "@types/node": "^20.17.9",
+    "typescript": "^5.7.2"
   }
 }

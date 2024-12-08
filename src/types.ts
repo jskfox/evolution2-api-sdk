@@ -40,3 +40,10 @@ export interface Settings {
   instanceName: string;
   [key: string]: any;
 }
+
+export * from './types/base';
+export * from './types/chat';
+export * from './types/group';
+export * from './types/instance';
+export * from './types/profile';
+export * from './types/settings';

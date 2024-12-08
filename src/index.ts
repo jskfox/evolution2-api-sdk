@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios';
 import createHttp from './http-common';
 import { Evolution2Config } from './types';
+import { BaseControllerConfig } from './types/base';
 
 import InstanceChatController from './controllers/instanceChatController';
 import InstanceController from './controllers/instanceController';
@@ -29,12 +30,14 @@ class Evolution2SDK {
 
     this.http = createHttp(this.config);
 
+    const controllerConfig: BaseControllerConfig = { http: this.http };
+
     // Initialize controllers
-    this.chat = new InstanceChatController(this.http);
-    this.instance = new InstanceController(this.http);
-    this.group = new InstanceGroupController(this.http);
-    this.profile = new InstanceProfileController(this.http);
-    this.settings = new InstanceSettingsController(this.http);
+    this.chat = new InstanceChatController(controllerConfig);
+    this.instance = new InstanceController(controllerConfig);
+    this.group = new InstanceGroupController(controllerConfig);
+    this.profile = new InstanceProfileController(controllerConfig);
+    this.settings = new InstanceSettingsController(controllerConfig);
   }
 
   setApiKey(apiKey: string): void {
@@ -42,12 +45,30 @@ class Evolution2SDK {
       ...this.config.headers,
       'apikey': apiKey
     };
-    this.http.defaults.headers.common['apikey'] = apiKey;
+    this.http = createHttp(this.config);
+    
+    const controllerConfig: BaseControllerConfig = { http: this.http };
+    
+    // Reinitialize controllers with new http instance
+    this.chat = new InstanceChatController(controllerConfig);
+    this.instance = new InstanceController(controllerConfig);
+    this.group = new InstanceGroupController(controllerConfig);
+    this.profile = new InstanceProfileController(controllerConfig);
+    this.settings = new InstanceSettingsController(controllerConfig);
   }
 
   setBaseURL(baseURL: string): void {
     this.config.baseURL = baseURL;
-    this.http.defaults.baseURL = baseURL;
+    this.http = createHttp(this.config);
+    
+    const controllerConfig: BaseControllerConfig = { http: this.http };
+    
+    // Reinitialize controllers with new http instance
+    this.chat = new InstanceChatController(controllerConfig);
+    this.instance = new InstanceController(controllerConfig);
+    this.group = new InstanceGroupController(controllerConfig);
+    this.profile = new InstanceProfileController(controllerConfig);
+    this.settings = new InstanceSettingsController(controllerConfig);
   }
 }
 
