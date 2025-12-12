@@ -1,12 +1,15 @@
 {
   "name": "evolution2-api-sdk",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Complete TypeScript SDK for Evolution API v2.3+ - Send messages, manage groups, handle chats and more",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "README.es.md",
+    "DOCUMENTATION.md",
+    "DOCUMENTATION.es.md"
   ],
   "scripts": {
     "build": "tsc",

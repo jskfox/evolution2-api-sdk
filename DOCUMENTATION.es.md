@@ -1015,6 +1015,47 @@ type WebhookEvent =
   // ... y más
 ```
 
+### Tipos de Respuesta
+
+```typescript
+interface SendMessageResult {
+  key: MessageKey;
+  message: Record<string, any>;
+  messageTimestamp: number;
+  status: 'PENDING' | 'SENT' | 'DELIVERED' | 'READ' | 'ERROR';
+  messageType?: string;
+}
+
+interface ConnectionStateResult {
+  instance: string;
+  state: 'open' | 'close' | 'connecting';
+  statusReason?: number;
+}
+
+interface QRCodeResult {
+  pairingCode?: string;
+  code?: string;
+  base64?: string;
+  count?: number;
+}
+
+interface CreateInstanceResult {
+  instance: {
+    instanceName: string;
+    instanceId: string;
+    integration: string;
+    status: string;
+  };
+  hash: string;
+  qrcode?: QRCodeResult;
+}
+
+interface SuccessResult {
+  status: 'success' | boolean;
+  message?: string;
+}
+```
+
 ---
 
 ## Uso Avanzado

@@ -27,6 +27,7 @@ The Message Controller handles all types of message sending operations.
 Send a text message with optional features like link preview and mentions.
 
 **Parameters:**
+
 ```typescript
 {
   number: string;           // Recipient number
@@ -39,6 +40,7 @@ Send a text message with optional features like link preview and mentions.
 ```
 
 **Example:**
+
 ```typescript
 await client.message.sendText({
   number: '5511999999999',
@@ -53,6 +55,7 @@ await client.message.sendText({
 Send images, videos, or documents.
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -65,6 +68,7 @@ Send images, videos, or documents.
 ```
 
 **Example:**
+
 ```typescript
 await client.message.sendMedia({
   number: '5511999999999',
@@ -79,6 +83,7 @@ await client.message.sendMedia({
 Send voice notes (WhatsApp audio format).
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -92,6 +97,7 @@ Send voice notes (WhatsApp audio format).
 Send stickers.
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -104,6 +110,7 @@ Send stickers.
 Share location coordinates.
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -119,6 +126,7 @@ Share location coordinates.
 Share contact cards.
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -138,6 +146,7 @@ Share contact cards.
 React to a message with an emoji.
 
 **Parameters:**
+
 ```typescript
 {
   key: {
@@ -154,6 +163,7 @@ React to a message with an emoji.
 Create a poll.
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -168,6 +178,7 @@ Create a poll.
 Send an interactive list message.
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -191,6 +202,7 @@ Send an interactive list message.
 Send a message with interactive buttons.
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -213,6 +225,7 @@ Send a message with interactive buttons.
 Post to WhatsApp status (stories).
 
 **Parameters:**
+
 ```typescript
 {
   type: 'text' | 'image' | 'video' | 'audio';
@@ -230,6 +243,7 @@ Post to WhatsApp status (stories).
 Send a video note (PTV - Picture-in-Picture video).
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -250,6 +264,7 @@ Get all instances.
 **Returns:** `Promise<Instance[]>`
 
 **Example:**
+
 ```typescript
 const instances = await client.instance.fetchAll();
 ```
@@ -259,6 +274,7 @@ const instances = await client.instance.fetchAll();
 Create a new instance.
 
 **Parameters:**
+
 ```typescript
 {
   instanceName: string;
@@ -288,6 +304,7 @@ Get current connection state.
 Set online/offline status.
 
 **Parameters:**
+
 - `presence`: `'available'` | `'unavailable'`
 
 ### restart(instanceName?)
@@ -319,6 +336,7 @@ Get all chats.
 Check if numbers have WhatsApp.
 
 **Parameters:**
+
 - `numbers`: `string[]`
 
 **Returns:** `Promise<WhatsappNumberStatus[]>`
@@ -328,6 +346,7 @@ Check if numbers have WhatsApp.
 Search contacts.
 
 **Parameters:**
+
 ```typescript
 {
   where?: {
@@ -341,6 +360,7 @@ Search contacts.
 Mark messages as read.
 
 **Parameters:**
+
 ```typescript
 {
   readMessages: Array<{
@@ -356,6 +376,7 @@ Mark messages as read.
 Mark a chat as unread.
 
 **Parameters:**
+
 ```typescript
 {
   chat: string;
@@ -374,6 +395,7 @@ Mark a chat as unread.
 Archive or unarchive a chat.
 
 **Parameters:**
+
 ```typescript
 {
   chat: string;
@@ -387,6 +409,7 @@ Archive or unarchive a chat.
 Delete a message for everyone.
 
 **Parameters:**
+
 ```typescript
 {
   id: string;
@@ -401,6 +424,7 @@ Delete a message for everyone.
 Edit a sent message.
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -414,6 +438,7 @@ Edit a sent message.
 Send typing or recording indicator.
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -427,6 +452,7 @@ Send typing or recording indicator.
 Block or unblock a contact.
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -439,6 +465,7 @@ Block or unblock a contact.
 Get profile picture URL.
 
 **Parameters:**
+
 - `number`: Contact number
 
 **Returns:** `Promise<{ profilePictureUrl: string }>`
@@ -448,6 +475,7 @@ Get profile picture URL.
 Extract base64 from a media message.
 
 **Parameters:**
+
 ```typescript
 {
   message: {
@@ -464,6 +492,7 @@ Extract base64 from a media message.
 Search messages.
 
 **Parameters:**
+
 ```typescript
 {
   where?: {
@@ -492,6 +521,7 @@ Complete group management functionality.
 Get all groups.
 
 **Parameters:**
+
 - `getParticipants`: `boolean` - Include participant details
 
 **Returns:** `Promise<GroupOptions[]>`
@@ -501,6 +531,7 @@ Get all groups.
 Get group information by ID.
 
 **Parameters:**
+
 - `groupJid`: Group JID (e.g., `'123456789@g.us'`)
 
 ### create(options, instanceName?)
@@ -508,6 +539,7 @@ Get group information by ID.
 Create a new group.
 
 **Parameters:**
+
 ```typescript
 {
   subject: string;
@@ -521,6 +553,7 @@ Create a new group.
 Update group picture.
 
 **Parameters:**
+
 - `groupJid`: Group ID
 - `imageUrl`: Image URL or base64
 
@@ -547,6 +580,7 @@ Revoke current invite link and generate a new one.
 Send group invite to numbers.
 
 **Parameters:**
+
 ```typescript
 {
   groupJid: string;
@@ -568,6 +602,7 @@ Get group participants.
 Add, remove, promote, or demote participants.
 
 **Parameters:**
+
 ```typescript
 {
   action: 'add' | 'remove' | 'promote' | 'demote';
@@ -580,6 +615,7 @@ Add, remove, promote, or demote participants.
 Change group settings.
 
 **Parameters:**
+
 ```typescript
 {
   action: 'announcement' | 'not_announcement' | 'locked' | 'unlocked';
@@ -591,6 +627,7 @@ Change group settings.
 Enable/disable disappearing messages.
 
 **Parameters:**
+
 - `expiration`: `0` (off), `86400` (24h), `604800` (7d), `7776000` (90d)
 
 ### leave(groupJid, instanceName?)
@@ -634,6 +671,7 @@ Remove profile picture.
 Get privacy settings.
 
 **Returns:**
+
 ```typescript
 Promise<{
   readreceipts?: 'all' | 'none';
@@ -664,6 +702,7 @@ Get current instance settings.
 Update instance settings.
 
 **Parameters:**
+
 ```typescript
 {
   rejectCall?: boolean;
@@ -685,6 +724,7 @@ Get webhook configuration.
 Configure webhook.
 
 **Parameters:**
+
 ```typescript
 {
   url: string;
@@ -747,6 +787,7 @@ Get all labels.
 Add or remove a label from a chat.
 
 **Parameters:**
+
 ```typescript
 {
   number: string;
@@ -766,6 +807,7 @@ Configure websocket events.
 Configure websocket.
 
 **Parameters:**
+
 ```typescript
 {
   websocket: {
@@ -776,6 +818,7 @@ Configure websocket.
 ```
 
 **Available events:**
+
 - `MESSAGES_UPSERT`
 - `MESSAGES_UPDATE`
 - `MESSAGES_DELETE`
@@ -970,6 +1013,47 @@ type WebhookEvent =
   | 'CONNECTION_UPDATE'
   | 'PRESENCE_UPDATE'
   // ... and more
+```
+
+### Response Types
+
+```typescript
+interface SendMessageResult {
+  key: MessageKey;
+  message: Record<string, any>;
+  messageTimestamp: number;
+  status: 'PENDING' | 'SENT' | 'DELIVERED' | 'READ' | 'ERROR';
+  messageType?: string;
+}
+
+interface ConnectionStateResult {
+  instance: string;
+  state: 'open' | 'close' | 'connecting';
+  statusReason?: number;
+}
+
+interface QRCodeResult {
+  pairingCode?: string;
+  code?: string;
+  base64?: string;
+  count?: number;
+}
+
+interface CreateInstanceResult {
+  instance: {
+    instanceName: string;
+    instanceId: string;
+    integration: string;
+    status: string;
+  };
+  hash: string;
+  qrcode?: QRCodeResult;
+}
+
+interface SuccessResult {
+  status: 'success' | boolean;
+  message?: string;
+}
 ```
 
 ---
