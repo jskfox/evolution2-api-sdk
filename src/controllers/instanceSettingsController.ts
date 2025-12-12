@@ -1,11 +1,11 @@
 import { AxiosInstance } from 'axios';
-import { BaseControllerConfig, handleApiError } from '../types/base';
-import { 
-  SettingsOptions, 
-  WebhookSettings, 
-  RabbitmqSettings, 
-  TypebotSettings, 
-  TypebotStatusChange 
+import { BaseControllerConfig, handleApiError, resolveInstance } from '../types/base';
+import {
+  SettingsOptions,
+  WebhookSettings,
+  RabbitmqSettings,
+  TypebotSettings,
+  TypebotStatusChange
 } from '../types/settings';
 
 interface WebsocketSettings {
@@ -33,174 +33,156 @@ interface ChatwootSettings {
   ignoreJids?: string[];
 }
 
+/**
+ * Controller for managing instance settings
+ * Controlador para gestionar configuración de instancia
+ */
 class InstanceSettingsController {
   private http: AxiosInstance;
+  private config: BaseControllerConfig;
 
-  constructor({ http }: BaseControllerConfig) {
-    this.http = http;
+  constructor(config: BaseControllerConfig) {
+    this.http = config.http;
+    this.config = config;
   }
 
-
-  async findOptions(instanceName: string): Promise<SettingsOptions> {
+  /** Find settings / Obtener configuración */
+  async findOptions(instanceName?: string): Promise<SettingsOptions> {
     try {
-      const response = await this.http.get(
-        "/settings/find/:instance", 
-        {
-          params: {
-            instance: instanceName
-          }
-        }
-      );
-      return response.data;
-    } catch (error) {
-      handleApiError(error);
-    }
-  }
-  
-  async setOptions(instanceName: string, data: SettingsOptions): Promise<SettingsOptions> {
-    try {
-      const response = await this.http.post(
-        "/settings/set/:instance", 
-        data, 
-        {
-          params: {
-            instance: instanceName
-          }
-        }
-      );
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.get("/settings/find/:instance", { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
     }
   }
 
-  async findWebhook(instanceName: string): Promise<WebhookSettings> {
+  /** Set settings / Establecer configuración */
+  async setOptions(data: SettingsOptions, instanceName?: string): Promise<SettingsOptions> {
     try {
-      const response = await this.http.get("/webhook/find/:instance", {
-        params: { instance: instanceName }
-      });
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.post("/settings/set/:instance", data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
     }
   }
 
-  async setWebhook(instanceName: string, data: WebhookSettings): Promise<WebhookSettings> {
+  /** Find webhook / Obtener webhook */
+  async findWebhook(instanceName?: string): Promise<WebhookSettings> {
     try {
-      const response = await this.http.post(
-        "/webhook/set/:instance",
-        data,
-        { params: { instance: instanceName } }
-      );
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.get("/webhook/find/:instance", { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
     }
   }
 
-  async findWebsocket(instanceName: string): Promise<WebsocketSettings> {
+  /** Set webhook / Establecer webhook */
+  async setWebhook(data: WebhookSettings, instanceName?: string): Promise<WebhookSettings> {
     try {
-      const response = await this.http.get("/websocket/find/:instance", {
-        params: { instance: instanceName }
-      });
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.post("/webhook/set/:instance", data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
     }
   }
 
-  async setWebsocket(instanceName: string, data: WebsocketSettings): Promise<WebsocketSettings> {
+  /** Find websocket / Obtener websocket */
+  async findWebsocket(instanceName?: string): Promise<WebsocketSettings> {
     try {
-      const response = await this.http.post(
-        "/websocket/set/:instance",
-        data,
-        { params: { instance: instanceName } }
-      );
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.get("/websocket/find/:instance", { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
     }
   }
 
-  async findRabbitmq(instanceName: string): Promise<RabbitmqSettings> {
+  /** Set websocket / Establecer websocket */
+  async setWebsocket(data: WebsocketSettings, instanceName?: string): Promise<WebsocketSettings> {
     try {
-      const response = await this.http.get("/rabbitmq/find/:instance", {
-        params: { instance: instanceName }
-      });
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.post("/websocket/set/:instance", data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
     }
   }
 
-  async setRabbitmq(instanceName: string, data: RabbitmqSettings): Promise<RabbitmqSettings> {
+  /** Find RabbitMQ / Obtener RabbitMQ */
+  async findRabbitmq(instanceName?: string): Promise<RabbitmqSettings> {
     try {
-      const response = await this.http.post(
-        "/rabbitmq/set/:instance",
-        data,
-        { params: { instance: instanceName } }
-      );
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.get("/rabbitmq/find/:instance", { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
     }
   }
 
-  async findChatwoot(instanceName: string): Promise<ChatwootSettings> {
+  /** Set RabbitMQ / Establecer RabbitMQ */
+  async setRabbitmq(data: RabbitmqSettings, instanceName?: string): Promise<RabbitmqSettings> {
     try {
-      const response = await this.http.get("/chatwoot/find/:instance", {
-        params: { instance: instanceName }
-      });
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.post("/rabbitmq/set/:instance", data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
     }
   }
 
-  async setChatwoot(instanceName: string, data: ChatwootSettings): Promise<ChatwootSettings> {
+  /** Find Chatwoot / Obtener Chatwoot */
+  async findChatwoot(instanceName?: string): Promise<ChatwootSettings> {
     try {
-      const response = await this.http.post(
-        "/chatwoot/set/:instance",
-        data,
-        { params: { instance: instanceName } }
-      );
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.get("/chatwoot/find/:instance", { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
     }
   }
 
-  async findTypebot(instanceName: string): Promise<TypebotSettings> {
+  /** Set Chatwoot / Establecer Chatwoot */
+  async setChatwoot(data: ChatwootSettings, instanceName?: string): Promise<ChatwootSettings> {
     try {
-      const response = await this.http.get("/typebot/find/:instance", {
-        params: { instance: instanceName }
-      });
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.post("/chatwoot/set/:instance", data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
     }
   }
 
-  async setTypebot(instanceName: string, data: TypebotSettings): Promise<TypebotSettings> {
+  /** Find Typebot / Obtener Typebot */
+  async findTypebot(instanceName?: string): Promise<TypebotSettings> {
     try {
-      const response = await this.http.post(
-        "/typebot/set/:instance",
-        data,
-        { params: { instance: instanceName } }
-      );
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.get("/typebot/find/:instance", { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
     }
   }
 
-  async changeTypebotStatus(instanceName: string, data: TypebotStatusChange): Promise<TypebotSettings> {
+  /** Set Typebot / Establecer Typebot */
+  async setTypebot(data: TypebotSettings, instanceName?: string): Promise<TypebotSettings> {
     try {
-      const response = await this.http.put(
-        "/typebot/changeStatus/:instance",
-        data,
-        { params: { instance: instanceName } }
-      );
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.post("/typebot/set/:instance", data, { params: { instance } });
+      return response.data;
+    } catch (error) {
+      handleApiError(error);
+    }
+  }
+
+  /** Change Typebot status / Cambiar estado de Typebot */
+  async changeTypebotStatus(data: TypebotStatusChange, instanceName?: string): Promise<TypebotSettings> {
+    try {
+      const instance = resolveInstance(instanceName, this.config);
+      const response = await this.http.put("/typebot/changeStatus/:instance", data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);

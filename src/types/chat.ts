@@ -27,18 +27,20 @@ export interface MessageQuoted {
   message?: MessageQuotedContent;
 }
 
+export interface MessageKey {
+  remoteJid: string;
+  fromMe: boolean;
+  id: string;
+}
+
 export interface MessageOptions {
   number: string;
   text: string;
   delay?: number;
-  quoted?: MessageQuoted;
-  linkPreview?: boolean;
-  mentionsEveryOne?: boolean;
-  mentioned?: string[];
 }
 
 export interface ButtonOption {
-  type: string;
+  type: 'reply';
   displayText: string;
   id: string;
 }
@@ -47,7 +49,7 @@ export interface ButtonsOptions {
   number: string;
   title: string;
   description: string;
-  footer: string;
+  footer?: string;
   buttons: ButtonOption[];
   delay?: number;
   quoted?: MessageQuoted;

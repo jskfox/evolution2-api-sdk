@@ -31,4 +31,5 @@ const createHttp = (config: Evolution2Config = {}): AxiosInstance => {
   return http;
 };
 
+export { createHttp };
 export default createHttp;

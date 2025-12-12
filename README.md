@@ -1,14 +1,17 @@
 # Evolution2 API SDK
 
-A TypeScript/JavaScript SDK for interacting with Evolution API v2.
+A modern TypeScript SDK for Evolution API v2, making WhatsApp integration straightforward for Node.js and Next.js applications.
 
-## Features
+[![npm version](https://badge.fury.io/js/evolution2-api-sdk.svg)](https://www.npmjs.com/package/evolution2-api-sdk)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- Full TypeScript support with type definitions
-- Modular controller-based architecture
-- Promise-based API
-- Comprehensive error handling
-- Axios-based HTTP client
+## Why This SDK?
+
+- **Set it once, use everywhere** - Configure your instance name once in the constructor, no need to repeat it in every method call
+- **Fully typed** - Complete TypeScript support with IntelliSense for all methods and options
+- **Modern async/await** - Clean, promise-based API that feels natural to use
+- **Flexible** - Override the default instance anytime, perfect for multi-instance scenarios
+- **Complete** - 60+ methods covering all Evolution API v2.3 endpoints
 
 ## Installation
 
@@ -16,152 +19,233 @@ A TypeScript/JavaScript SDK for interacting with Evolution API v2.
 npm install evolution2-api-sdk
 ```
 
-## Usage
+## Quick Start
 
 ```typescript
-import Evolution2SDK from 'evolution2-api-sdk';
+import { Evolution2SDK } from 'evolution2-api-sdk';
 
-const evoApi = new Evolution2SDK({
-  baseURL: 'https://your-api-url.com',
-  apiKey: 'globalApiKey',
-  // Optionally, you can add other headers here. 
-  headers: {
-    'your-header': 'value', // For example, 'Bearer your-token'
-  }
+const client = new Evolution2SDK({
+  host: 'https://your-evolution-api.com',
+  apiKey: 'your-api-key',
+  instanceName: 'my-whatsapp' // optional default instance
 });
 
-// Instance management
-const instances = await evoApi.instance.fetchAll();
+// Send a message - no need to specify instance again
+await client.message.sendText({
+  number: '5511999999999',
+  text: 'Hello from Evolution SDK!'
+});
 
-// Chat operations
-const chats = await evoApi.chat.getAll('instance-name');
+// Need to use a different instance? Just pass it as the last parameter
+await client.message.sendText(
+  { number: '5511888888888', text: 'Hi!' },
+  'another-instance'
+);
+```
 
-// Group management
-const groups = await evoApi.group.getAll('instance-name');
+## Core Features
 
-// Profile management
-await evoApi.profile.updateName('instance-name', 'New Name');
-await evoApi.profile.updateStatus('instance-name', 'Hello!');
-const privacy = await evoApi.profile.getPrivacy('instance-name');
-await evoApi.profile.updatePrivacy('instance-name', privacySettings);
+### Message Types
+Send any type of WhatsApp message with simple, intuitive methods:
 
-// Settings management
-const settings = await evoApi.settings.findOptions('instance-name');
-await evoApi.settings.setOptions('instance-name', {
-  rejectCalls: true,
-  groupsAdminsOnly: false
+```typescript
+// Text with link preview
+await client.message.sendText({
+  number: '5511999999999',
+  text: 'Check this out: https://example.com',
+  linkPreview: true
+});
+
+// Media (images, videos, documents)
+await client.message.sendMedia({
+  number: '5511999999999',
+  mediatype: 'image',
+  media: 'https://example.com/photo.jpg',
+  caption: 'Beautiful sunset'
+});
+
+// Interactive lists
+await client.message.sendList({
+  number: '5511999999999',
+  title: 'Our Menu',
+  description: 'Choose your favorite',
+  buttonText: 'View Menu',
+  sections: [{
+    title: 'Main Dishes',
+    rows: [
+      { title: 'Pizza', description: 'Margherita', rowId: '1' },
+      { title: 'Burger', description: 'Classic beef', rowId: '2' }
+    ]
+  }]
+});
+
+// Polls, buttons, reactions, stickers, and more...
+```
+
+### Instance Management
+
+```typescript
+// Create a new instance
+const instance = await client.instance.create({
+  instanceName: 'sales-bot',
+  integration: 'WHATSAPP-BAILEYS',
+  qrcode: true
+});
+
+// Get QR code for connection
+const connection = await client.instance.connect();
+console.log(connection.base64); // Display this QR code
+
+// Check connection status
+const state = await client.instance.connectionState();
+console.log(state.state); // 'open', 'close', or 'connecting'
+```
+
+### Chat Operations
+
+```typescript
+// Get all chats
+const chats = await client.chat.findChats();
+
+// Mark messages as read
+await client.chat.markAsRead({
+  readMessages: [{
+    remoteJid: '5511999999999@s.whatsapp.net',
+    fromMe: false,
+    id: 'MESSAGE_ID'
+  }]
+});
+
+// Send typing indicator
+await client.chat.sendPresence({
+  number: '5511999999999',
+  presence: 'composing',
+  delay: 2000
 });
 ```
 
-## Controllers
+### Group Management
 
-- `InstanceController`: Manage WhatsApp instances
-- `InstanceChatController`: Handle chat operations
-- `InstanceGroupController`: Manage group operations
-- `InstanceProfileController`: Handle profile settings
-- `InstanceSettingsController`: Manage instance settings
+```typescript
+// Create a group
+const group = await client.group.create({
+  subject: 'Project Team',
+  description: 'Our awesome project',
+  participants: ['5511999999999', '5511888888888']
+});
 
-## Type Definitions
+// Add participants
+await client.group.updateParticipant(group.id, {
+  action: 'add',
+  participants: ['5511777777777']
+});
 
-All controllers and methods are fully typed. Type definitions are available for:
-- Instance configurations and states
-- Chat messages and contacts
-- Group structures and operations
-- Profile settings
-- Instance settings
-- API responses
+// Get invite link
+const invite = await client.group.fetchInviteCode(group.id);
+```
+
+## Available Controllers
+
+| Controller | Methods | Purpose |
+|------------|---------|---------|
+| `instance` | 8 | Create, connect, manage WhatsApp instances |
+| `message` | 12 | Send all types of messages (text, media, polls, etc) |
+| `chat` | 14 | Chat operations, contacts, message management |
+| `group` | 14 | Complete group management |
+| `profile` | 8 | Profile and privacy settings |
+| `settings` | 11 | Instance configuration |
+| `label` | 2 | Label management |
+| `websocket` | 2 | Websocket event configuration |
+
+**Total: 71 methods** - See [full documentation](./DOCUMENTATION.md) for details on every method.
 
 ## Error Handling
 
-The SDK includes comprehensive error handling with detailed error messages from the API.
-
----
-
-# Evolution2 API SDK (Español)
-
-SDK en TypeScript/JavaScript para interactuar con Evolution API v2.
-
-## Características
-
-- Soporte completo de TypeScript con definiciones de tipos
-- Arquitectura modular basada en controladores
-- API basada en Promesas
-- Manejo integral de errores
-- Cliente HTTP basado en Axios
-
-## Instalación
-
-```bash
-npm install evolution2-api-sdk
-```
-
-## Uso
+The SDK throws descriptive errors that you can catch and handle:
 
 ```typescript
-import Evolution2SDK from 'evolution2-api-sdk';
+try {
+  await client.message.sendText({
+    number: 'invalid',
+    text: 'Hello'
+  });
+} catch (error) {
+  console.error('Failed to send message:', error.message);
+  // Handle the error appropriately
+}
+```
 
-const evoApi = new Evolution2SDK({
-  baseURL: 'https://tu-url-api.com',
-  apiKey: 'globalApiKey',
-  // Opcionalmente puedes agregar otros encabezados 
-  headers: {
-    'Nuevo-Encabezado': 'Tu Valor', // Por ejemplo, 'Bearer tu-token'
+## Websocket Events
+
+Configure which events you want to receive via websocket:
+
+```typescript
+await client.websocket.set({
+  websocket: {
+    enabled: true,
+    events: [
+      'MESSAGES_UPSERT',
+      'CONNECTION_UPDATE',
+      'MESSAGES_UPDATE',
+      'PRESENCE_UPDATE'
+    ]
   }
-});
-
-// Gestión de instancias
-const instancias = await evoApi.instance.fetchAll();
-
-// Operaciones de chat
-const chats = await evoApi.chat.getAll('nombre-instancia');
-
-// Gestión de grupos
-const grupos = await evoApi.group.getAll('nombre-instancia');
-
-// Gestión de perfil
-await evoApi.profile.updateName('nombre-instancia', 'Nuevo Nombre');
-await evoApi.profile.updateStatus('nombre-instancia', '¡Hola!');
-const privacidad = await evoApi.profile.getPrivacy('nombre-instancia');
-await evoApi.profile.updatePrivacy('nombre-instancia', configuracionPrivacidad);
-
-// Gestión de configuraciones
-const configuraciones = await evoApi.settings.findOptions('nombre-instancia');
-await evoApi.settings.setOptions('nombre-instancia', {
-  rejectCalls: true,
-  groupsAdminsOnly: false
 });
 ```
 
-## Controladores
+## Dynamic Configuration
 
-- `InstanceController`: Gestiona instancias de WhatsApp
-- `InstanceChatController`: Maneja operaciones de chat
-- `InstanceGroupController`: Gestiona operaciones de grupos
-- `InstanceProfileController`: Maneja configuraciones de perfil
-- `InstanceSettingsController`: Gestiona configuraciones de instancia
+Change settings on the fly without recreating the client:
 
-## Definiciones de Tipos
+```typescript
+// Switch to a different instance
+client.setInstance('another-instance');
 
-Todos los controladores y métodos están completamente tipados. Las definiciones de tipos están disponibles para:
-- Configuraciones y estados de instancia
-- Mensajes y contactos de chat
-- Estructuras y operaciones de grupos
-- Configuraciones de perfil
-- Configuraciones de instancia
-- Respuestas de API
+// Update API credentials
+client.setApiKey('new-api-key');
+client.setBaseURL('https://new-server.com');
+```
 
-## Manejo de Errores
+## TypeScript Support
 
-El SDK incluye un manejo integral de errores con mensajes detallados de la API.
+All methods and options are fully typed. Import types as needed:
 
-## Licencia
+```typescript
+import { 
+  TextMessageOptions,
+  MediaMessageOptions,
+  Evolution2SDK 
+} from 'evolution2-api-sdk';
+```
 
-Este proyecto se distribuye bajo la licencia [MIT](https://opensource.org/licenses/MIT)
+See [DOCUMENTATION.md](./DOCUMENTATION.md) for complete type definitions.
 
-## Autor
+## Requirements
 
-Esta librería fue adaptada y extendida por [Jorge Solano Kirk](https://github.com/jskfox).
+- Node.js 14 or higher
+- Evolution API v2.3+
+- TypeScript 4.5+ (for TypeScript projects)
 
-## Créditos
+## Documentation
 
-Esta librería se basa en el código de [Evolution Manager](https://github.com/EvolutionAPI/evolution-manager), desarrollado por [Gabriel Pastori] bajo la licencia MIT.
+- [Complete API Documentation](./DOCUMENTATION.md) - Detailed guide for every method
+- [Evolution API Docs](https://doc.evolution-api.com) - Official Evolution API documentation
+
+## Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## Credits
+
+Created and maintained by [Jorge Solano Kirk](https://github.com/jskfox).
+
+Based on [Evolution Manager](https://github.com/EvolutionAPI/evolution-manager) by Gabriel Pastori.
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/jskfox/evolution2-api-sdk/issues)
+- **NPM**: [evolution2-api-sdk](https://www.npmjs.com/package/evolution2-api-sdk)

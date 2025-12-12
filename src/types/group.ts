@@ -4,6 +4,21 @@ export interface Group {
   participants: GroupParticipant[];
 }
 
+export interface GroupOptions {
+  id: string;
+  subject: string;
+  subjectOwner?: string;
+  subjectTime?: number;
+  creation?: number;
+  owner?: string;
+  desc?: string;
+  descOwner?: string;
+  descId?: string;
+  restrict?: boolean;
+  announce?: boolean;
+  participants?: any[];
+}
+
 export interface GroupParticipant {
   id: string;
   admin: boolean;
