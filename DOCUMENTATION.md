@@ -1140,4 +1140,183 @@ await client.websocket.set({
 
 ---
 
+## Best Practices
+
+### Media Formats
+
+For best compatibility, use these recommended formats:
+
+| Type | Recommended Format | Max Size | Notes |
+|------|-------------------|----------|-------|
+| Image | PNG, JPG, WebP | 5MB | WebP preferred for smaller size |
+| Video | MP4 (H.264) | 16MB | Keep under 1 minute for best delivery |
+| Audio | OGG/Opus | 16MB | Native WhatsApp format, best quality |
+| Document | PDF | 100MB | Other formats supported but PDF is universal |
+| Sticker | WebP | 500KB | 512x512 pixels max |
+
+### Base64 Usage
+
+The SDK automatically handles base64 prefixes. You can use either format:
+
+```typescript
+// With prefix (automatically stripped)
+const media = 'data:image/png;base64,iVBORw0KGgo...';
+
+// Without prefix (recommended)
+const media = 'iVBORw0KGgo...';
+
+// Both work the same
+await client.message.sendMedia({
+  number: '5511999999999',
+  mediatype: 'image',
+  media: media
+});
+```
+
+### Reading Local Files
+
+```typescript
+import * as fs from 'fs';
+
+// Read file and convert to base64
+const buffer = fs.readFileSync('./photo.png');
+const base64 = buffer.toString('base64');
+
+await client.message.sendMedia({
+  number: '5511999999999',
+  mediatype: 'image',
+  media: base64,
+  mimetype: 'image/png',
+  fileName: 'photo.png'
+});
+```
+
+### Helper Functions
+
+The SDK exports utility functions you can use:
+
+```typescript
+import { normalizeBase64, isUrl, RECOMMENDED_FORMATS, MAX_FILE_SIZES } from 'evolution2-api-sdk';
+
+// Check if input is URL or base64
+if (isUrl(input)) {
+  // It's a URL
+} else {
+  // It's base64, normalize it
+  const clean = normalizeBase64(input);
+}
+
+// Check recommended formats
+console.log(RECOMMENDED_FORMATS.audio); // ['audio/ogg', 'audio/mpeg']
+console.log(MAX_FILE_SIZES.image);      // 5242880 (5MB)
+```
+
+---
+
+## Troubleshooting
+
+### Common Errors
+
+#### Error 400: Bad Request
+
+**Causes:**
+
+- Invalid phone number format (missing country code)
+- Unsupported media format
+- Base64 with incorrect prefix
+
+**Solutions:**
+
+```typescript
+// ✅ Correct: Include country code without + or spaces
+number: '5511999999999'
+
+// ❌ Wrong
+number: '+55 11 99999-9999'
+number: '11999999999'
+```
+
+#### Error 401: Unauthorized
+
+**Causes:**
+
+- Invalid or missing API key
+- API key doesn't have permission for instance
+
+**Solutions:**
+
+```typescript
+// Verify API key is correct
+const client = new Evolution2SDK({
+  host: 'https://your-api.com',
+  apiKey: 'your-correct-api-key',
+  instanceName: 'your-instance'
+});
+```
+
+#### Error 404: Instance Not Found
+
+**Causes:**
+
+- Instance doesn't exist
+- Instance name is misspelled
+
+**Solutions:**
+
+```typescript
+// List all instances to verify name
+const instances = await client.instance.fetchInstances();
+console.log(instances.map(i => i.instance.instanceName));
+```
+
+#### Error 500: Server Error
+
+**Causes:**
+
+- Media URL not accessible from server
+- File too large
+- Server-side processing error
+
+**Solutions:**
+
+- Use base64 instead of URLs
+- Reduce file size
+- Check server logs
+
+### Deprecated Features
+
+Some WhatsApp features have been deprecated by Meta:
+
+| Feature | Status | Alternative |
+|---------|--------|-------------|
+| `sendList()` | Deprecated | Use `sendButtons()` with reply buttons |
+| `sendStatus()` | Limited | Only works with WhatsApp Business API |
+| Interactive templates | Deprecated | Use native button types |
+
+### Permission Issues
+
+#### Group Operations
+
+Some group operations require admin permissions:
+
+```typescript
+// These require admin permissions:
+// - fetchInviteCode()
+// - updateGroupSubject()
+// - updateGroupDescription()
+// - addParticipants()
+// - removeParticipants()
+// - promoteParticipants()
+// - demoteParticipants()
+
+// Check admin status first
+const participants = await client.group.findParticipants({ groupJid: 'group@g.us' });
+const myNumber = '5511999999999@s.whatsapp.net';
+const amAdmin = participants.some(p => 
+  p.id === myNumber && (p.admin === 'admin' || p.admin === 'superadmin')
+);
+```
+
+---
+
 For more information, visit the [Evolution API documentation](https://doc.evolution-api.com).

@@ -46,6 +46,7 @@ await client.message.sendText(
 ## Core Features
 
 ### Message Types
+
 Send any type of WhatsApp message with simple, intuitive methods:
 
 ```typescript
@@ -225,6 +226,26 @@ See [DOCUMENTATION.md](./DOCUMENTATION.md) for complete type definitions.
 - Node.js 14 or higher
 - Evolution API v2.3+
 - TypeScript 4.5+ (for TypeScript projects)
+
+## Testing
+
+The SDK includes a comprehensive test suite (`test-sdk.ts`) that you can run to verify functionality:
+
+```bash
+# 1. Copy and configure environment
+cp .env.example .env
+# Edit .env with your credentials
+
+# 2. Add test media files (for media message tests)
+# Place these files in the root directory:
+# - example.ogg (audio file, OGG/Opus format)
+# - example.mp4 (video file, MP4 format)
+
+# 3. Run tests
+npx ts-node test-sdk.ts
+```
+
+**Note**: The test suite expects `example.ogg` and `example.mp4` files to test audio and video message functionality. Without these files, those specific tests will fail, but the SDK itself works correctly - you just need to provide your own media files when using `sendWhatsAppAudio()`, `sendMedia()` with video, or `sendPtv()`.
 
 ## Documentation
 

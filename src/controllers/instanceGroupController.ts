@@ -41,7 +41,7 @@ class InstanceGroupController {
   async fetchAll(getParticipants: boolean = false, instanceName?: string): Promise<GroupOptions[]> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get<GroupOptions[]>("/group/fetchAllGroups/:instance", {
+      const response = await this.http.get<GroupOptions[]>(`/group/fetchAllGroups/${instance}`, {
         params: { instance, getParticipants: getParticipants.toString() }
       });
       return response.data;
@@ -54,7 +54,7 @@ class InstanceGroupController {
   async findById(groupJid: string, instanceName?: string): Promise<GroupOptions> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get<GroupOptions>("/group/findGroupInfos/:instance", {
+      const response = await this.http.get<GroupOptions>(`/group/findGroupInfos/${instance}`, {
         params: { instance, groupJid }
       });
       return response.data;
@@ -67,7 +67,7 @@ class InstanceGroupController {
   async create(options: CreateGroupOptions, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/group/create/:instance", options, { params: { instance } });
+      const response = await this.http.post(`/group/create/${instance}`, options, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -78,7 +78,7 @@ class InstanceGroupController {
   async updatePicture(groupJid: string, imageUrl: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/group/updateGroupPicture/:instance", { image: imageUrl }, { params: { instance, groupJid } });
+      const response = await this.http.post(`/group/updateGroupPicture/${instance}`, { image: imageUrl }, { params: { instance, groupJid } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -89,7 +89,7 @@ class InstanceGroupController {
   async updateSubject(groupJid: string, subject: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/group/updateGroupSubject/:instance", { subject }, { params: { instance, groupJid } });
+      const response = await this.http.post(`/group/updateGroupSubject/${instance}`, { subject }, { params: { instance, groupJid } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -100,7 +100,7 @@ class InstanceGroupController {
   async updateDescription(groupJid: string, description: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/group/updateGroupDescription/:instance", { description }, { params: { instance, groupJid } });
+      const response = await this.http.post(`/group/updateGroupDescription/${instance}`, { description }, { params: { instance, groupJid } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -111,7 +111,7 @@ class InstanceGroupController {
   async fetchInviteCode(groupJid: string, instanceName?: string): Promise<{ inviteCode: string }> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get("/group/inviteCode/:instance", { params: { instance, groupJid } });
+      const response = await this.http.get(`/group/inviteCode/${instance}`, { params: { instance, groupJid } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -122,7 +122,7 @@ class InstanceGroupController {
   async revokeInviteCode(groupJid: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/group/revokeInviteCode/:instance", {}, { params: { instance, groupJid } });
+      const response = await this.http.post(`/group/revokeInviteCode/${instance}`, {}, { params: { instance, groupJid } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -133,7 +133,7 @@ class InstanceGroupController {
   async sendInvite(options: SendInviteOptions, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/group/sendInvite/:instance", options, { params: { instance } });
+      const response = await this.http.post(`/group/sendInvite/${instance}`, options, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -144,7 +144,7 @@ class InstanceGroupController {
   async findByInviteCode(inviteCode: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get("/group/inviteInfo/:instance", { params: { instance, inviteCode } });
+      const response = await this.http.get(`/group/inviteInfo/${instance}`, { params: { instance, inviteCode } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -155,7 +155,7 @@ class InstanceGroupController {
   async findParticipants(groupJid: string, instanceName?: string): Promise<any[]> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get("/group/participants/:instance", { params: { instance, groupJid } });
+      const response = await this.http.get(`/group/participants/${instance}`, { params: { instance, groupJid } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -166,7 +166,7 @@ class InstanceGroupController {
   async updateParticipant(groupJid: string, options: UpdateParticipantOptions, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/group/updateParticipant/:instance", options, { params: { instance, groupJid } });
+      const response = await this.http.post(`/group/updateParticipant/${instance}`, options, { params: { instance, groupJid } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -177,7 +177,7 @@ class InstanceGroupController {
   async updateSetting(groupJid: string, options: UpdateGroupSettingOptions, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/group/updateSetting/:instance", options, { params: { instance, groupJid } });
+      const response = await this.http.post(`/group/updateSetting/${instance}`, options, { params: { instance, groupJid } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -188,7 +188,7 @@ class InstanceGroupController {
   async toggleEphemeral(groupJid: string, expiration: number, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/group/toggleEphemeral/:instance", { expiration }, { params: { instance, groupJid } });
+      const response = await this.http.post(`/group/toggleEphemeral/${instance}`, { expiration }, { params: { instance, groupJid } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -199,7 +199,7 @@ class InstanceGroupController {
   async leave(groupJid: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.delete("/group/leaveGroup/:instance", { params: { instance, groupJid } });
+      const response = await this.http.delete(`/group/leaveGroup/${instance}`, { params: { instance, groupJid } });
       return response.data;
     } catch (error) {
       handleApiError(error);

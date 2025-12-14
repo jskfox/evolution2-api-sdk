@@ -28,7 +28,7 @@ class WebsocketController {
     async set(settings: WebsocketSettings, instanceName?: string): Promise<WebsocketSettings> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.post<WebsocketSettings>("/websocket/set/:instance", settings, { params: { instance } });
+            const response = await this.http.post<WebsocketSettings>(`/websocket/set/${instance}`, settings, { params: { instance } });
             return response.data;
         } catch (error) {
             handleApiError(error);
@@ -39,7 +39,7 @@ class WebsocketController {
     async find(instanceName?: string): Promise<WebsocketSettings> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.get<WebsocketSettings>("/websocket/find/:instance", { params: { instance } });
+            const response = await this.http.get<WebsocketSettings>(`/websocket/find/${instance}`, { params: { instance } });
             return response.data;
         } catch (error) {
             handleApiError(error);

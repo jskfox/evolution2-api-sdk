@@ -110,7 +110,7 @@ class InstanceChatController {
   async findChats(instanceName?: string): Promise<ChatContact[]> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post<ChatContact[]>("/chat/findChats/:instance", {}, {
+      const response = await this.http.post<ChatContact[]>(`/chat/findChats/${instance}`, {}, {
         params: { instance }
       });
       return response.data;
@@ -126,7 +126,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.post<WhatsappNumberStatus[]>(
-        "/chat/whatsappNumbers/:instance",
+        `/chat/whatsappNumbers/${instance}`,
         { numbers },
         { params: { instance } }
       );
@@ -143,7 +143,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.post<ChatContact[]>(
-        "/chat/findContacts/:instance",
+        `/chat/findContacts/${instance}`,
         options,
         { params: { instance } }
       );
@@ -160,7 +160,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.post(
-        "/chat/markMessageAsRead/:instance",
+        `/chat/markMessageAsRead/${instance}`,
         options,
         { params: { instance } }
       );
@@ -177,7 +177,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.post(
-        "/chat/markChatUnread/:instance",
+        `/chat/markChatUnread/${instance}`,
         options,
         { params: { instance } }
       );
@@ -194,7 +194,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.post(
-        "/chat/archiveChat/:instance",
+        `/chat/archiveChat/${instance}`,
         options,
         { params: { instance } }
       );
@@ -211,7 +211,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.delete(
-        "/chat/deleteMessageForEveryone/:instance",
+        `/chat/deleteMessageForEveryone/${instance}`,
         { params: { instance }, data: options }
       );
       return response.data;
@@ -227,7 +227,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.post(
-        "/chat/updateMessage/:instance",
+        `/chat/updateMessage/${instance}`,
         options,
         { params: { instance } }
       );
@@ -244,7 +244,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.post(
-        "/chat/sendPresence/:instance",
+        `/chat/sendPresence/${instance}`,
         options,
         { params: { instance } }
       );
@@ -261,7 +261,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.post(
-        "/chat/updateBlockStatus/:instance",
+        `/chat/updateBlockStatus/${instance}`,
         options,
         { params: { instance } }
       );
@@ -278,7 +278,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.post(
-        "/chat/fetchProfilePictureUrl/:instance",
+        `/chat/fetchProfilePictureUrl/${instance}`,
         { number },
         { params: { instance } }
       );
@@ -295,7 +295,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.post(
-        "/chat/getBase64FromMediaMessage/:instance",
+        `/chat/getBase64FromMediaMessage/${instance}`,
         options,
         { params: { instance } }
       );
@@ -312,7 +312,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.post(
-        "/chat/findMessages/:instance",
+        `/chat/findMessages/${instance}`,
         options,
         { params: { instance } }
       );
@@ -329,7 +329,7 @@ class InstanceChatController {
     try {
       const instance = resolveInstance(instanceName, this.config);
       const response = await this.http.post(
-        "/chat/findStatusMessage/:instance",
+        `/chat/findStatusMessage/${instance}`,
         options,
         { params: { instance } }
       );

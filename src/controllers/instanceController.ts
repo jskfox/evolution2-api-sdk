@@ -43,7 +43,7 @@ class InstanceController {
   async delete(instanceName?: string): Promise<void> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      await this.http.delete(`/instance/delete/:instance`, { params: { instance } });
+      await this.http.delete(`/instance/delete/${instance}`, { params: { instance } });
     } catch (error) {
       handleApiError(error);
     }
@@ -53,7 +53,7 @@ class InstanceController {
   async connect(instanceName?: string): Promise<QRCodeResult> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get<QRCodeResult>("/instance/connect/:instance", { params: { instance } });
+      const response = await this.http.get<QRCodeResult>(`/instance/connect/${instance}`, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -64,7 +64,7 @@ class InstanceController {
   async connectionState(instanceName?: string): Promise<ConnectionStateResult> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get<ConnectionStateResult>("/instance/connectionState/:instance", { params: { instance } });
+      const response = await this.http.get<ConnectionStateResult>(`/instance/connectionState/${instance}`, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -75,7 +75,7 @@ class InstanceController {
   async setPresence(presence: PresenceStatus, instanceName?: string): Promise<SuccessResult> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post<SuccessResult>("/instance/setPresence/:instance", { presence }, { params: { instance } });
+      const response = await this.http.post<SuccessResult>(`/instance/setPresence/${instance}`, { presence }, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -86,7 +86,7 @@ class InstanceController {
   async logout(instanceName?: string): Promise<void> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      await this.http.delete("/instance/logout/:instance", { params: { instance } });
+      await this.http.delete(`/instance/logout/${instance}`, { params: { instance } });
     } catch (error) {
       handleApiError(error);
     }
@@ -96,7 +96,7 @@ class InstanceController {
   async restart(instanceName?: string): Promise<void> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      await this.http.post("/instance/restart/:instance", {}, { params: { instance } });
+      await this.http.post(`/instance/restart/${instance}`, {}, { params: { instance } });
     } catch (error) {
       handleApiError(error);
     }

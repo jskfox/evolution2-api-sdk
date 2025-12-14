@@ -1,0 +1,25 @@
+# Exclude test media files from npm package
+# Excluir archivos de media de prueba del paquete npm
+example.mp4
+example.ogg
+
+# Exclude development files
+# Excluir archivos de desarrollo
+.env
+*.log
+.DS_Store
+.vscode
+.idea
+
+# Exclude source TypeScript (compiled version in dist/)
+# Excluir TypeScript fuente (versión compilada en dist/)
+src/
+
+# Keep these for users
+# Mantener estos para usuarios
+!test-sdk.ts
+!examples/
+!DOCUMENTATION.md
+!DOCUMENTATION.es.md
+!README.md
+!README.es.md

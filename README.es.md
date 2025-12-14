@@ -218,6 +218,26 @@ Consulta [DOCUMENTATION.es.md](./DOCUMENTATION.es.md) para definiciones completa
 - Evolution API v2.3+
 - TypeScript 4.5+ (para proyectos TypeScript)
 
+## Pruebas
+
+El SDK incluye una suite de pruebas completa (`test-sdk.ts`) que puedes ejecutar para verificar la funcionalidad:
+
+```bash
+# 1. Copiar y configurar el entorno
+cp .env.example .env
+# Editar .env con tus credenciales
+
+# 2. Agregar archivos de media para pruebas (para tests de mensajes media)
+# Coloca estos archivos en el directorio raíz:
+# - example.ogg (archivo de audio, formato OGG/Opus)
+# - example.mp4 (archivo de video, formato MP4)
+
+# 3. Ejecutar pruebas
+npx ts-node test-sdk.ts
+```
+
+**Nota**: La suite de pruebas espera los archivos `example.ogg` y `example.mp4` para probar la funcionalidad de mensajes de audio y video. Sin estos archivos, esas pruebas específicas fallarán, pero el SDK en sí funciona correctamente - solo necesitas proporcionar tus propios archivos de media cuando uses `sendWhatsAppAudio()`, `sendMedia()` con video, o `sendPtv()`.
+
 ## Documentación
 
 - [Documentación Completa de la API](./DOCUMENTATION.es.md) - Guía detallada de cada método

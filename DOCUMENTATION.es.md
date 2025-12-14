@@ -1140,4 +1140,183 @@ await client.websocket.set({
 
 ---
 
+## Mejores Prácticas
+
+### Formatos de Media
+
+Para mejor compatibilidad, usa estos formatos recomendados:
+
+| Tipo | Formato Recomendado | Tamaño Máx | Notas |
+|------|---------------------|------------|-------|
+| Imagen | PNG, JPG, WebP | 5MB | WebP preferido por menor tamaño |
+| Video | MP4 (H.264) | 16MB | Mantener bajo 1 minuto para mejor entrega |
+| Audio | OGG/Opus | 16MB | Formato nativo de WhatsApp, mejor calidad |
+| Documento | PDF | 100MB | Otros formatos soportados pero PDF es universal |
+| Sticker | WebP | 500KB | 512x512 píxeles máximo |
+
+### Uso de Base64
+
+El SDK maneja automáticamente los prefijos base64. Puedes usar cualquier formato:
+
+```typescript
+// Con prefijo (se elimina automáticamente)
+const media = 'data:image/png;base64,iVBORw0KGgo...';
+
+// Sin prefijo (recomendado)
+const media = 'iVBORw0KGgo...';
+
+// Ambos funcionan igual
+await client.message.sendMedia({
+  number: '5511999999999',
+  mediatype: 'image',
+  media: media
+});
+```
+
+### Leyendo Archivos Locales
+
+```typescript
+import * as fs from 'fs';
+
+// Leer archivo y convertir a base64
+const buffer = fs.readFileSync('./foto.png');
+const base64 = buffer.toString('base64');
+
+await client.message.sendMedia({
+  number: '5511999999999',
+  mediatype: 'image',
+  media: base64,
+  mimetype: 'image/png',
+  fileName: 'foto.png'
+});
+```
+
+### Funciones Auxiliares
+
+El SDK exporta funciones utilitarias que puedes usar:
+
+```typescript
+import { normalizeBase64, isUrl, RECOMMENDED_FORMATS, MAX_FILE_SIZES } from 'evolution2-api-sdk';
+
+// Verificar si es URL o base64
+if (isUrl(input)) {
+  // Es una URL
+} else {
+  // Es base64, normalizarlo
+  const limpio = normalizeBase64(input);
+}
+
+// Consultar formatos recomendados
+console.log(RECOMMENDED_FORMATS.audio); // ['audio/ogg', 'audio/mpeg']
+console.log(MAX_FILE_SIZES.image);      // 5242880 (5MB)
+```
+
+---
+
+## Solución de Problemas
+
+### Errores Comunes
+
+#### Error 400: Bad Request
+
+**Causas:**
+
+- Formato de número inválido (falta código de país)
+- Formato de media no soportado
+- Base64 con prefijo incorrecto
+
+**Soluciones:**
+
+```typescript
+// ✅ Correcto: Incluir código de país sin + ni espacios
+number: '5511999999999'
+
+// ❌ Incorrecto
+number: '+55 11 99999-9999'
+number: '11999999999'
+```
+
+#### Error 401: Unauthorized
+
+**Causas:**
+
+- API key inválida o faltante
+- La API key no tiene permiso para la instancia
+
+**Soluciones:**
+
+```typescript
+// Verificar que la API key sea correcta
+const client = new Evolution2SDK({
+  host: 'https://tu-api.com',
+  apiKey: 'tu-api-key-correcta',
+  instanceName: 'tu-instancia'
+});
+```
+
+#### Error 404: Instance Not Found
+
+**Causas:**
+
+- La instancia no existe
+- El nombre de instancia está mal escrito
+
+**Soluciones:**
+
+```typescript
+// Listar todas las instancias para verificar el nombre
+const instancias = await client.instance.fetchInstances();
+console.log(instancias.map(i => i.instance.instanceName));
+```
+
+#### Error 500: Server Error
+
+**Causas:**
+
+- URL de media no accesible desde el servidor
+- Archivo muy grande
+- Error de procesamiento del servidor
+
+**Soluciones:**
+
+- Usar base64 en lugar de URLs
+- Reducir el tamaño del archivo
+- Revisar los logs del servidor
+
+### Características Obsoletas
+
+Algunas características de WhatsApp han sido deprecadas por Meta:
+
+| Característica | Estado | Alternativa |
+|----------------|--------|-------------|
+| `sendList()` | Deprecado | Usar `sendButtons()` con botones de respuesta |
+| `sendStatus()` | Limitado | Solo funciona con WhatsApp Business API |
+| Templates interactivos | Deprecado | Usar tipos de botones nativos |
+
+### Problemas de Permisos
+
+#### Operaciones de Grupo
+
+Algunas operaciones de grupo requieren permisos de administrador:
+
+```typescript
+// Estas requieren permisos de admin:
+// - fetchInviteCode()
+// - updateGroupSubject()
+// - updateGroupDescription()
+// - addParticipants()
+// - removeParticipants()
+// - promoteParticipants()
+// - demoteParticipants()
+
+// Verificar estado de admin primero
+const participantes = await client.group.findParticipants({ groupJid: 'grupo@g.us' });
+const miNumero = '5511999999999@s.whatsapp.net';
+const soyAdmin = participantes.some(p => 
+  p.id === miNumero && (p.admin === 'admin' || p.admin === 'superadmin')
+);
+```
+
+---
+
 Para más información, visita la [documentación de Evolution API](https://doc.evolution-api.com).

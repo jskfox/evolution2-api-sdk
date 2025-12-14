@@ -34,7 +34,7 @@ class LabelController {
     async findLabels(instanceName?: string): Promise<Label[]> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.get<Label[]>("/label/findLabels/:instance", { params: { instance } });
+            const response = await this.http.get<Label[]>(`/label/findLabels/${instance}`, { params: { instance } });
             return response.data;
         } catch (error) {
             handleApiError(error);
@@ -45,7 +45,7 @@ class LabelController {
     async handleLabel(options: HandleLabelOptions, instanceName?: string): Promise<any> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.post("/label/handleLabel/:instance", options, { params: { instance } });
+            const response = await this.http.post(`/label/handleLabel/${instance}`, options, { params: { instance } });
             return response.data;
         } catch (error) {
             handleApiError(error);

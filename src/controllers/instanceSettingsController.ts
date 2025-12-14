@@ -50,7 +50,7 @@ class InstanceSettingsController {
   async findOptions(instanceName?: string): Promise<SettingsOptions> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get("/settings/find/:instance", { params: { instance } });
+      const response = await this.http.get(`/settings/find/${instance}`, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -61,7 +61,7 @@ class InstanceSettingsController {
   async setOptions(data: SettingsOptions, instanceName?: string): Promise<SettingsOptions> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/settings/set/:instance", data, { params: { instance } });
+      const response = await this.http.post(`/settings/set/${instance}`, data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -72,7 +72,7 @@ class InstanceSettingsController {
   async findWebhook(instanceName?: string): Promise<WebhookSettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get("/webhook/find/:instance", { params: { instance } });
+      const response = await this.http.get(`/webhook/find/${instance}`, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -83,7 +83,7 @@ class InstanceSettingsController {
   async setWebhook(data: WebhookSettings, instanceName?: string): Promise<WebhookSettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/webhook/set/:instance", data, { params: { instance } });
+      const response = await this.http.post(`/webhook/set/${instance}`, data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -94,7 +94,7 @@ class InstanceSettingsController {
   async findWebsocket(instanceName?: string): Promise<WebsocketSettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get("/websocket/find/:instance", { params: { instance } });
+      const response = await this.http.get(`/websocket/find/${instance}`, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -105,7 +105,7 @@ class InstanceSettingsController {
   async setWebsocket(data: WebsocketSettings, instanceName?: string): Promise<WebsocketSettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/websocket/set/:instance", data, { params: { instance } });
+      const response = await this.http.post(`/websocket/set/${instance}`, data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -116,7 +116,7 @@ class InstanceSettingsController {
   async findRabbitmq(instanceName?: string): Promise<RabbitmqSettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get("/rabbitmq/find/:instance", { params: { instance } });
+      const response = await this.http.get(`/rabbitmq/find/${instance}`, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -127,7 +127,7 @@ class InstanceSettingsController {
   async setRabbitmq(data: RabbitmqSettings, instanceName?: string): Promise<RabbitmqSettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/rabbitmq/set/:instance", data, { params: { instance } });
+      const response = await this.http.post(`/rabbitmq/set/${instance}`, data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -138,7 +138,7 @@ class InstanceSettingsController {
   async findChatwoot(instanceName?: string): Promise<ChatwootSettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get("/chatwoot/find/:instance", { params: { instance } });
+      const response = await this.http.get(`/chatwoot/find/${instance}`, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -149,7 +149,7 @@ class InstanceSettingsController {
   async setChatwoot(data: ChatwootSettings, instanceName?: string): Promise<ChatwootSettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/chatwoot/set/:instance", data, { params: { instance } });
+      const response = await this.http.post(`/chatwoot/set/${instance}`, data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -160,7 +160,7 @@ class InstanceSettingsController {
   async findTypebot(instanceName?: string): Promise<TypebotSettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get("/typebot/find/:instance", { params: { instance } });
+      const response = await this.http.get(`/typebot/find/${instance}`, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -171,7 +171,7 @@ class InstanceSettingsController {
   async setTypebot(data: TypebotSettings, instanceName?: string): Promise<TypebotSettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/typebot/set/:instance", data, { params: { instance } });
+      const response = await this.http.post(`/typebot/set/${instance}`, data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -182,7 +182,7 @@ class InstanceSettingsController {
   async changeTypebotStatus(data: TypebotStatusChange, instanceName?: string): Promise<TypebotSettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.put("/typebot/changeStatus/:instance", data, { params: { instance } });
+      const response = await this.http.put(`/typebot/changeStatus/${instance}`, data, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);

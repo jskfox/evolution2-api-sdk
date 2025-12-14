@@ -28,7 +28,7 @@ class InstanceProfileController {
   async fetchProfile(number: string, instanceName?: string): Promise<Profile> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post<Profile>("/chat/fetchProfile/:instance", { number }, { params: { instance } });
+      const response = await this.http.post<Profile>(`/chat/fetchProfile/${instance}`, { number }, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -39,7 +39,7 @@ class InstanceProfileController {
   async fetchBusinessProfile(number: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/chat/fetchBusinessProfile/:instance", { number }, { params: { instance } });
+      const response = await this.http.post(`/chat/fetchBusinessProfile/${instance}`, { number }, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -50,7 +50,7 @@ class InstanceProfileController {
   async updateName(name: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/chat/updateProfileName/:instance", { name }, { params: { instance } });
+      const response = await this.http.post(`/chat/updateProfileName/${instance}`, { name }, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -61,7 +61,7 @@ class InstanceProfileController {
   async updateStatus(status: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/chat/updateProfileStatus/:instance", { status }, { params: { instance } });
+      const response = await this.http.post(`/chat/updateProfileStatus/${instance}`, { status }, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -72,7 +72,7 @@ class InstanceProfileController {
   async updatePicture(pictureUrl: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/chat/updateProfilePicture/:instance", { picture: pictureUrl }, { params: { instance } });
+      const response = await this.http.post(`/chat/updateProfilePicture/${instance}`, { picture: pictureUrl }, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -83,7 +83,7 @@ class InstanceProfileController {
   async removePicture(instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.delete("/chat/removeProfilePicture/:instance", { params: { instance } });
+      const response = await this.http.delete(`/chat/removeProfilePicture/${instance}`, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -94,7 +94,7 @@ class InstanceProfileController {
   async getPrivacy(instanceName?: string): Promise<PrivacySettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get<PrivacySettings>("/chat/fetchPrivacySettings/:instance", { params: { instance } });
+      const response = await this.http.get<PrivacySettings>(`/chat/fetchPrivacySettings/${instance}`, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);
@@ -105,7 +105,7 @@ class InstanceProfileController {
   async updatePrivacy(settings: PrivacySettings, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post("/chat/updatePrivacySettings/:instance", settings, { params: { instance } });
+      const response = await this.http.post(`/chat/updatePrivacySettings/${instance}`, settings, { params: { instance } });
       return response.data;
     } catch (error) {
       handleApiError(error);

@@ -23,8 +23,10 @@ export interface SendMessageResult {
  * Connection state result
  */
 export interface ConnectionStateResult {
-    instance: string;
-    state: 'open' | 'close' | 'connecting';
+    instance: {
+        instanceName: string;
+        state: 'open' | 'close' | 'connecting';
+    };
     statusReason?: number;
 }
 

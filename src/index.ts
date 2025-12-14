@@ -154,3 +154,5 @@ export default Evolution2SDK;
 export { Evolution2SDK };
 export * from './types';
 export * from './types/message';
+export * from './types/response';
+export { normalizeBase64, isUrl, isBase64, RECOMMENDED_FORMATS, MAX_FILE_SIZES } from './utils/mediaHelpers';

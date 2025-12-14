@@ -1,6 +1,6 @@
 {
   "name": "evolution2-api-sdk",
-  "version": "2.3.1",
+  "version": "2.3.3",
   "description": "Complete TypeScript SDK for Evolution API v2.3+ - Send messages, manage groups, handle chats and more",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,10 @@
     "README.md",
     "README.es.md",
     "DOCUMENTATION.md",
-    "DOCUMENTATION.es.md"
+    "DOCUMENTATION.es.md",
+    "examples",
+    "test-sdk.ts",
+    ".env.example"
   ],
   "scripts": {
     "build": "tsc",
@@ -27,6 +30,9 @@
     "evolution2api",
     "evolution-manager",
     "v2",
+    "evolution",
+    "whatsapp",
+    "baileys",
     "sdk"
   ],
   "author": "Jorge Solano Kirk",
