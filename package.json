@@ -1,7 +1,11 @@
 {
   "name": "evolution2-api-sdk",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "Complete TypeScript SDK for Evolution API v2.3+ - Send messages, manage groups, handle chats and more",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jskfox/evolution2-api-sdk.git"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
