@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { HttpClient } from '../http-common';
 import { BaseControllerConfig, handleApiError, resolveInstance } from '../types/base';
 import {
     TextMessageOptions,
@@ -32,7 +32,7 @@ import { normalizeBase64, isUrl } from '../utils/mediaHelpers';
  * ```
  */
 class MessageController {
-    private http: AxiosInstance;
+    private http: HttpClient;
     private config: BaseControllerConfig;
 
     constructor(config: BaseControllerConfig) {
@@ -49,12 +49,11 @@ class MessageController {
     async sendText(options: TextMessageOptions, instanceName?: string): Promise<SendMessageResult> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.post<SendMessageResult>(
+            return await this.http.post<SendMessageResult>(
                 `/message/sendText/${instance}`,
                 options,
-                { params: { instance } }
+                { instance }
             );
-            return response.data;
         } catch (error) {
             handleApiError(error);
         }
@@ -83,12 +82,11 @@ class MessageController {
                 media: isUrl(options.media) ? options.media : normalizeBase64(options.media)
             };
 
-            const response = await this.http.post<SendMessageResult>(
+            return await this.http.post<SendMessageResult>(
                 `/message/sendMedia/${instance}`,
                 normalizedOptions,
-                { params: { instance } }
+                { instance }
             );
-            return response.data;
         } catch (error) {
             handleApiError(error);
         }
@@ -115,12 +113,11 @@ class MessageController {
                 audio: isUrl(options.audio) ? options.audio : normalizeBase64(options.audio)
             };
 
-            const response = await this.http.post<SendMessageResult>(
+            return await this.http.post<SendMessageResult>(
                 `/message/sendWhatsAppAudio/${instance}`,
                 normalizedOptions,
-                { params: { instance } }
+                { instance }
             );
-            return response.data;
         } catch (error) {
             handleApiError(error);
         }
@@ -144,12 +141,11 @@ class MessageController {
                 sticker: isUrl(options.sticker) ? options.sticker : normalizeBase64(options.sticker)
             };
 
-            const response = await this.http.post<SendMessageResult>(
+            return await this.http.post<SendMessageResult>(
                 `/message/sendSticker/${instance}`,
                 normalizedOptions,
-                { params: { instance } }
+                { instance }
             );
-            return response.data;
         } catch (error) {
             handleApiError(error);
         }
@@ -162,12 +158,11 @@ class MessageController {
     async sendLocation(options: LocationMessageOptions, instanceName?: string): Promise<SendMessageResult> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.post<SendMessageResult>(
+            return await this.http.post<SendMessageResult>(
                 `/message/sendLocation/${instance}`,
                 options,
-                { params: { instance } }
+                { instance }
             );
-            return response.data;
         } catch (error) {
             handleApiError(error);
         }
@@ -180,12 +175,11 @@ class MessageController {
     async sendContact(options: ContactMessageOptions, instanceName?: string): Promise<SendMessageResult> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.post<SendMessageResult>(
+            return await this.http.post<SendMessageResult>(
                 `/message/sendContact/${instance}`,
                 options,
-                { params: { instance } }
+                { instance }
             );
-            return response.data;
         } catch (error) {
             handleApiError(error);
         }
@@ -198,12 +192,11 @@ class MessageController {
     async sendReaction(options: ReactionMessageOptions, instanceName?: string): Promise<SendMessageResult> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.post<SendMessageResult>(
+            return await this.http.post<SendMessageResult>(
                 `/message/sendReaction/${instance}`,
                 options,
-                { params: { instance } }
+                { instance }
             );
-            return response.data;
         } catch (error) {
             handleApiError(error);
         }
@@ -216,12 +209,11 @@ class MessageController {
     async sendPoll(options: PollMessageOptions, instanceName?: string): Promise<SendMessageResult> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.post<SendMessageResult>(
+            return await this.http.post<SendMessageResult>(
                 `/message/sendPoll/${instance}`,
                 options,
-                { params: { instance } }
+                { instance }
             );
-            return response.data;
         } catch (error) {
             handleApiError(error);
         }
@@ -234,12 +226,11 @@ class MessageController {
     async sendList(options: ListMessageOptions, instanceName?: string): Promise<SendMessageResult> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.post<SendMessageResult>(
+            return await this.http.post<SendMessageResult>(
                 `/message/sendList/${instance}`,
                 options,
-                { params: { instance } }
+                { instance }
             );
-            return response.data;
         } catch (error) {
             handleApiError(error);
         }
@@ -252,12 +243,11 @@ class MessageController {
     async sendButtons(options: ButtonsMessageOptions, instanceName?: string): Promise<SendMessageResult> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.post<SendMessageResult>(
+            return await this.http.post<SendMessageResult>(
                 `/message/sendButtons/${instance}`,
                 options,
-                { params: { instance } }
+                { instance }
             );
-            return response.data;
         } catch (error) {
             handleApiError(error);
         }
@@ -270,12 +260,11 @@ class MessageController {
     async sendStatus(options: StatusMessageOptions, instanceName?: string): Promise<SendMessageResult> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.post<SendMessageResult>(
+            return await this.http.post<SendMessageResult>(
                 `/message/sendStatus/${instance}`,
                 options,
-                { params: { instance } }
+                { instance }
             );
-            return response.data;
         } catch (error) {
             handleApiError(error);
         }
@@ -299,12 +288,11 @@ class MessageController {
                 video: isUrl(options.video) ? options.video : normalizeBase64(options.video)
             };
 
-            const response = await this.http.post<SendMessageResult>(
+            return await this.http.post<SendMessageResult>(
                 `/message/sendPtv/${instance}`,
                 normalizedOptions,
-                { params: { instance } }
+                { instance }
             );
-            return response.data;
         } catch (error) {
             handleApiError(error);
         }

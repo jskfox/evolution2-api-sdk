@@ -7,6 +7,7 @@ A modern TypeScript SDK for Evolution API v2, making WhatsApp integration straig
 
 ## Why This SDK?
 
+- **Zero dependencies** - No external runtime dependencies. Uses Node.js native `fetch` API, keeping your project lightweight and secure
 - **Set it once, use everywhere** - Configure your instance name once in the constructor, no need to repeat it in every method call
 - **Fully typed** - Complete TypeScript support with IntelliSense for all methods and options
 - **Modern async/await** - Clean, promise-based API that feels natural to use
@@ -223,7 +224,7 @@ See [DOCUMENTATION.md](./DOCUMENTATION.md) for complete type definitions.
 
 ## Requirements
 
-- Node.js 14 or higher
+- Node.js 18 or higher (uses native `fetch` API)
 - Evolution API v2.3+
 - TypeScript 4.5+ (for TypeScript projects)
 

@@ -1,6 +1,6 @@
 {
   "name": "evolution2-api-sdk",
-  "version": "2.3.5",
+  "version": "3.0.0",
   "description": "Complete TypeScript SDK for Evolution API v2.3+ - Send messages, manage groups, handle chats and more",
   "repository": {
     "type": "git",
@@ -41,8 +41,8 @@
   ],
   "author": "Jorge Solano Kirk",
   "license": "MIT",
-  "dependencies": {
-    "axios": "1.14.0"
+  "engines": {
+    "node": ">=18.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.17.9",

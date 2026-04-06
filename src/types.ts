@@ -1,8 +1,8 @@
-import { AxiosRequestConfig } from 'axios';
-
-export interface Evolution2Config extends AxiosRequestConfig {
+export interface Evolution2Config {
   host?: string;
   apiKey?: string;
+  baseURL?: string;
+  headers?: Record<string, string>;
 }
 
 export interface MessageOptions {

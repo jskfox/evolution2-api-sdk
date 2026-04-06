@@ -1,5 +1,4 @@
-import { AxiosInstance } from 'axios';
-import { createHttp } from './http-common';
+import { HttpClient, HttpConfig, createHttp } from './http-common';
 import { Evolution2Config } from './types';
 import InstanceChatController from './controllers/instanceChatController';
 import InstanceController from './controllers/instanceController';
@@ -46,8 +45,8 @@ export interface Evolution2SDKConfig extends Evolution2Config {
  * ```
  */
 class Evolution2SDK {
-  private config: Evolution2Config;
-  private http!: AxiosInstance;
+  private httpConfig: HttpConfig;
+  private http!: HttpClient;
   private _instanceName?: string;
 
   /** Chat operations controller / Controlador de operaciones de chat */
@@ -78,15 +77,16 @@ class Evolution2SDK {
   constructor(config: Evolution2SDKConfig) {
     this._instanceName = config.instanceName;
 
-    this.config = {
+    this.httpConfig = {
       baseURL: config.host || '',
       headers: {
-        'apikey': config.apiKey || ''
-      },
-      ...config
+        'Content-Type': 'application/json',
+        'apikey': config.apiKey || '',
+        ...config.headers
+      }
     };
 
-    this.http = createHttp(this.config);
+    this.http = createHttp(this.httpConfig);
     this._initControllers();
   }
 
@@ -131,11 +131,11 @@ class Evolution2SDK {
    * Actualizar API key y reinicializar controladores
    */
   setApiKey(apiKey: string): void {
-    this.config.headers = {
-      ...this.config.headers,
+    this.httpConfig.headers = {
+      ...this.httpConfig.headers,
       'apikey': apiKey
     };
-    this.http = createHttp(this.config);
+    this.http = createHttp(this.httpConfig);
     this._initControllers();
   }
 
@@ -144,8 +144,8 @@ class Evolution2SDK {
    * Actualizar URL base y reinicializar controladores
    */
   setBaseURL(baseURL: string): void {
-    this.config.baseURL = baseURL;
-    this.http = createHttp(this.config);
+    this.httpConfig.baseURL = baseURL;
+    this.http = createHttp(this.httpConfig);
     this._initControllers();
   }
 }

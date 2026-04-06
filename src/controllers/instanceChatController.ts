@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { HttpClient } from '../http-common';
 import { BaseControllerConfig, handleApiError, resolveInstance } from '../types/base';
 import { ChatContact, WhatsappNumberStatus, MessageKey } from '../types/chat';
 import { ProfilePictureResult, MediaBase64Result, MessageSearchResult, SuccessResult } from '../types/response';
@@ -96,7 +96,7 @@ export interface FindContactsOptions {
  * Controlador para operaciones de chat
  */
 class InstanceChatController {
-  private http: AxiosInstance;
+  private http: HttpClient;
   private config: BaseControllerConfig;
 
   constructor(config: BaseControllerConfig) {
@@ -110,10 +110,9 @@ class InstanceChatController {
   async findChats(instanceName?: string): Promise<ChatContact[]> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post<ChatContact[]>(`/chat/findChats/${instance}`, {}, {
-        params: { instance }
+      return await this.http.post<ChatContact[]>(`/chat/findChats/${instance}`, {}, {
+        instance
       });
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -125,12 +124,11 @@ class InstanceChatController {
   async hasWhatsapp(numbers: string[], instanceName?: string): Promise<WhatsappNumberStatus[]> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post<WhatsappNumberStatus[]>(
+      return await this.http.post<WhatsappNumberStatus[]>(
         `/chat/whatsappNumbers/${instance}`,
         { numbers },
-        { params: { instance } }
+        { instance }
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -142,12 +140,11 @@ class InstanceChatController {
   async findContacts(options: FindContactsOptions = {}, instanceName?: string): Promise<ChatContact[]> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post<ChatContact[]>(
+      return await this.http.post<ChatContact[]>(
         `/chat/findContacts/${instance}`,
         options,
-        { params: { instance } }
+        { instance }
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -159,12 +156,11 @@ class InstanceChatController {
   async markAsRead(options: ReadMessageOptions, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(
+      return await this.http.post(
         `/chat/markMessageAsRead/${instance}`,
         options,
-        { params: { instance } }
+        { instance }
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -176,12 +172,11 @@ class InstanceChatController {
   async markChatUnread(options: MarkChatUnreadOptions, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(
+      return await this.http.post(
         `/chat/markChatUnread/${instance}`,
         options,
-        { params: { instance } }
+        { instance }
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -193,12 +188,11 @@ class InstanceChatController {
   async archiveChat(options: ArchiveChatOptions, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(
+      return await this.http.post(
         `/chat/archiveChat/${instance}`,
         options,
-        { params: { instance } }
+        { instance }
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -210,11 +204,11 @@ class InstanceChatController {
   async deleteMessage(options: DeleteMessageOptions, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.delete(
+      return await this.http.delete(
         `/chat/deleteMessageForEveryone/${instance}`,
-        { params: { instance }, data: options }
+        { instance },
+        options
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -226,12 +220,11 @@ class InstanceChatController {
   async updateMessage(options: UpdateMessageOptions, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(
+      return await this.http.post(
         `/chat/updateMessage/${instance}`,
         options,
-        { params: { instance } }
+        { instance }
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -243,12 +236,11 @@ class InstanceChatController {
   async sendPresence(options: SendPresenceOptions, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(
+      return await this.http.post(
         `/chat/sendPresence/${instance}`,
         options,
-        { params: { instance } }
+        { instance }
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -260,12 +252,11 @@ class InstanceChatController {
   async updateBlockStatus(options: UpdateBlockStatusOptions, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(
+      return await this.http.post(
         `/chat/updateBlockStatus/${instance}`,
         options,
-        { params: { instance } }
+        { instance }
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -277,12 +268,11 @@ class InstanceChatController {
   async fetchProfilePictureUrl(number: string, instanceName?: string): Promise<{ profilePictureUrl: string }> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(
+      return await this.http.post(
         `/chat/fetchProfilePictureUrl/${instance}`,
         { number },
-        { params: { instance } }
+        { instance }
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -294,12 +284,11 @@ class InstanceChatController {
   async getBase64FromMedia(options: GetBase64Options, instanceName?: string): Promise<{ base64: string; mimetype: string }> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(
+      return await this.http.post(
         `/chat/getBase64FromMediaMessage/${instance}`,
         options,
-        { params: { instance } }
+        { instance }
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -311,12 +300,11 @@ class InstanceChatController {
   async findMessages(options: FindMessagesOptions = {}, instanceName?: string): Promise<any[]> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(
+      return await this.http.post(
         `/chat/findMessages/${instance}`,
         options,
-        { params: { instance } }
+        { instance }
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }
@@ -328,12 +316,11 @@ class InstanceChatController {
   async findStatusMessage(options: FindMessagesOptions = {}, instanceName?: string): Promise<any[]> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(
+      return await this.http.post(
         `/chat/findStatusMessage/${instance}`,
         options,
-        { params: { instance } }
+        { instance }
       );
-      return response.data;
     } catch (error) {
       handleApiError(error);
     }

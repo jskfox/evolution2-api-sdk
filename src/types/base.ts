@@ -1,7 +1,7 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { HttpClient } from '../http-common';
 
 export interface BaseControllerConfig {
-  http: AxiosInstance;
+  http: HttpClient;
   /** Default instance name to use when not specified / Nombre de instancia por defecto */
   defaultInstance?: string;
   /** Function to get the current default instance / Función para obtener la instancia por defecto actual */
@@ -17,7 +17,7 @@ export interface ApiResponse<T = any> {
 export type ApiResponsePromise<T = any> = Promise<ApiResponse<T>>;
 
 export function handleApiError(error: any): never {
-  throw error.response?.data || error.response || error;
+  throw error;
 }
 
 /**

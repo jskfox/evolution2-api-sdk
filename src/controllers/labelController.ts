@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { HttpClient } from '../http-common';
 import { BaseControllerConfig, handleApiError, resolveInstance } from '../types/base';
 import { LabelInfo, HandleLabelResult } from '../types/response';
 
@@ -22,7 +22,7 @@ export interface HandleLabelOptions {
  * Controlador para gestionar etiquetas
  */
 class LabelController {
-    private http: AxiosInstance;
+    private http: HttpClient;
     private config: BaseControllerConfig;
 
     constructor(config: BaseControllerConfig) {
@@ -34,8 +34,7 @@ class LabelController {
     async findLabels(instanceName?: string): Promise<Label[]> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.get<Label[]>(`/label/findLabels/${instance}`, { params: { instance } });
-            return response.data;
+            return await this.http.get<Label[]>(`/label/findLabels/${instance}`, { instance });
         } catch (error) {
             handleApiError(error);
         }
@@ -45,8 +44,7 @@ class LabelController {
     async handleLabel(options: HandleLabelOptions, instanceName?: string): Promise<any> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.post(`/label/handleLabel/${instance}`, options, { params: { instance } });
-            return response.data;
+            return await this.http.post(`/label/handleLabel/${instance}`, options, { instance });
         } catch (error) {
             handleApiError(error);
         }

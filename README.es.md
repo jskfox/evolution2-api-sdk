@@ -7,6 +7,7 @@ Un SDK moderno en TypeScript para Evolution API v2, que facilita la integración
 
 ## ¿Por qué este SDK?
 
+- **Cero dependencias** - Utiliza la API `fetch` nativa de Node.js, sin dependencias externas
 - **Configúralo una vez, úsalo en todas partes** - Define el nombre de tu instancia una sola vez en el constructor, sin necesidad de repetirlo en cada llamada
 - **Completamente tipado** - Soporte completo de TypeScript con IntelliSense para todos los métodos y opciones
 - **Async/await moderno** - API limpia basada en promesas que se siente natural
@@ -214,7 +215,7 @@ Consulta [DOCUMENTATION.es.md](./DOCUMENTATION.es.md) para definiciones completa
 
 ## Requisitos
 
-- Node.js 14 o superior
+- Node.js 18 o superior (utiliza la API `fetch` nativa)
 - Evolution API v2.3+
 - TypeScript 4.5+ (para proyectos TypeScript)
 

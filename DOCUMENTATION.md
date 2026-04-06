@@ -2,6 +2,17 @@
 
 This document provides detailed information about every method available in the SDK.
 
+## Architecture
+
+This SDK uses the native Node.js `fetch` API for all HTTP requests. It has **zero external dependencies** — the `axios` library was removed in favor of the built-in `fetch` available since Node.js 18. This makes the SDK:
+
+- **Lighter**: No external dependencies to install or bundle
+- **Faster**: Native implementation, no JS overhead from third-party libraries
+- **More secure**: Smaller attack surface, no transitive dependency vulnerabilities
+- **Future-proof**: Uses the web standard `fetch` API
+
+> **Note**: Requires Node.js 18 or higher.
+
 ## Table of Contents
 
 - [Message Controller](#message-controller)
@@ -1090,12 +1101,14 @@ try {
   });
   console.log('Message sent:', result);
 } catch (error) {
-  if (error.response?.status === 404) {
+  // The SDK throws the parsed error body from the API response
+  // Common error shapes from Evolution API:
+  if (error.status === 404) {
     console.error('Instance not found');
-  } else if (error.response?.status === 401) {
+  } else if (error.status === 401) {
     console.error('Invalid API key');
   } else {
-    console.error('Error:', error.message);
+    console.error('Error:', error.message || error);
   }
 }
 ```

@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { HttpClient } from '../http-common';
 import { BaseControllerConfig, handleApiError, resolveInstance } from '../types/base';
 import { Profile } from '../types/profile';
 
@@ -16,7 +16,7 @@ export interface PrivacySettings {
  * Controlador para gestionar configuración de perfil
  */
 class InstanceProfileController {
-  private http: AxiosInstance;
+  private http: HttpClient;
   private config: BaseControllerConfig;
 
   constructor(config: BaseControllerConfig) {
@@ -28,8 +28,7 @@ class InstanceProfileController {
   async fetchProfile(number: string, instanceName?: string): Promise<Profile> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post<Profile>(`/chat/fetchProfile/${instance}`, { number }, { params: { instance } });
-      return response.data;
+      return await this.http.post<Profile>(`/chat/fetchProfile/${instance}`, { number }, { instance });
     } catch (error) {
       handleApiError(error);
     }
@@ -39,8 +38,7 @@ class InstanceProfileController {
   async fetchBusinessProfile(number: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(`/chat/fetchBusinessProfile/${instance}`, { number }, { params: { instance } });
-      return response.data;
+      return await this.http.post(`/chat/fetchBusinessProfile/${instance}`, { number }, { instance });
     } catch (error) {
       handleApiError(error);
     }
@@ -50,8 +48,7 @@ class InstanceProfileController {
   async updateName(name: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(`/chat/updateProfileName/${instance}`, { name }, { params: { instance } });
-      return response.data;
+      return await this.http.post(`/chat/updateProfileName/${instance}`, { name }, { instance });
     } catch (error) {
       handleApiError(error);
     }
@@ -61,8 +58,7 @@ class InstanceProfileController {
   async updateStatus(status: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(`/chat/updateProfileStatus/${instance}`, { status }, { params: { instance } });
-      return response.data;
+      return await this.http.post(`/chat/updateProfileStatus/${instance}`, { status }, { instance });
     } catch (error) {
       handleApiError(error);
     }
@@ -72,8 +68,7 @@ class InstanceProfileController {
   async updatePicture(pictureUrl: string, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(`/chat/updateProfilePicture/${instance}`, { picture: pictureUrl }, { params: { instance } });
-      return response.data;
+      return await this.http.post(`/chat/updateProfilePicture/${instance}`, { picture: pictureUrl }, { instance });
     } catch (error) {
       handleApiError(error);
     }
@@ -83,8 +78,7 @@ class InstanceProfileController {
   async removePicture(instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.delete(`/chat/removeProfilePicture/${instance}`, { params: { instance } });
-      return response.data;
+      return await this.http.delete(`/chat/removeProfilePicture/${instance}`, { instance });
     } catch (error) {
       handleApiError(error);
     }
@@ -94,8 +88,7 @@ class InstanceProfileController {
   async getPrivacy(instanceName?: string): Promise<PrivacySettings> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.get<PrivacySettings>(`/chat/fetchPrivacySettings/${instance}`, { params: { instance } });
-      return response.data;
+      return await this.http.get<PrivacySettings>(`/chat/fetchPrivacySettings/${instance}`, { instance });
     } catch (error) {
       handleApiError(error);
     }
@@ -105,8 +98,7 @@ class InstanceProfileController {
   async updatePrivacy(settings: PrivacySettings, instanceName?: string): Promise<any> {
     try {
       const instance = resolveInstance(instanceName, this.config);
-      const response = await this.http.post(`/chat/updatePrivacySettings/${instance}`, settings, { params: { instance } });
-      return response.data;
+      return await this.http.post(`/chat/updatePrivacySettings/${instance}`, settings, { instance });
     } catch (error) {
       handleApiError(error);
     }

@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { HttpClient } from '../http-common';
 import { BaseControllerConfig, handleApiError, resolveInstance } from '../types/base';
 import { WebhookEvent } from '../types/settings';
 
@@ -16,7 +16,7 @@ export interface WebsocketSettings {
  * Controlador para gestionar la configuración de Websocket
  */
 class WebsocketController {
-    private http: AxiosInstance;
+    private http: HttpClient;
     private config: BaseControllerConfig;
 
     constructor(config: BaseControllerConfig) {
@@ -28,8 +28,7 @@ class WebsocketController {
     async set(settings: WebsocketSettings, instanceName?: string): Promise<WebsocketSettings> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.post<WebsocketSettings>(`/websocket/set/${instance}`, settings, { params: { instance } });
-            return response.data;
+            return await this.http.post<WebsocketSettings>(`/websocket/set/${instance}`, settings, { instance });
         } catch (error) {
             handleApiError(error);
         }
@@ -39,8 +38,7 @@ class WebsocketController {
     async find(instanceName?: string): Promise<WebsocketSettings> {
         try {
             const instance = resolveInstance(instanceName, this.config);
-            const response = await this.http.get<WebsocketSettings>(`/websocket/find/${instance}`, { params: { instance } });
-            return response.data;
+            return await this.http.get<WebsocketSettings>(`/websocket/find/${instance}`, { instance });
         } catch (error) {
             handleApiError(error);
         }

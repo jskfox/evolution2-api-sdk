@@ -2,6 +2,12 @@
 
 Este documento proporciona información detallada sobre cada método disponible en el SDK.
 
+## Arquitectura
+
+Este SDK utiliza la API nativa `fetch` de Node.js para todas las solicitudes HTTP. Tiene **cero dependencias externas** — la librería `axios` fue eliminada en favor de la API nativa, lo que resulta en un paquete más ligero y seguro.
+
+> **Nota**: Requiere Node.js 18 o superior.
+
 ## Tabla de Contenidos
 
 - [Controlador de Mensajes](#controlador-de-mensajes)
@@ -1090,13 +1096,9 @@ try {
   });
   console.log('Mensaje enviado:', result);
 } catch (error) {
-  if (error.response?.status === 404) {
-    console.error('Instancia no encontrada');
-  } else if (error.response?.status === 401) {
-    console.error('API key inválida');
-  } else {
-    console.error('Error:', error.message);
-  }
+  // El SDK lanza el cuerpo del error parseado desde la API
+  // Los errores comunes incluyen: status, message, error
+  console.error('Error:', error);
 }
 ```
 
